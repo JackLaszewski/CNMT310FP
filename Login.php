@@ -1,20 +1,45 @@
-<?php 
+<?php
+session_start(); 
+require_once("WebServiceClient.php");
 
-session_start();
-
+// Check if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Hardcoded username and password
-    // Will change later once we get how to actually do the validating
-    $username = "student";
-    $password = "password123";
+    $apikey = "";
+    $apihash = "";
 
-    $inputUsername = $_POST['username'];
-    $inputPassword = $_POST['password'];
+    // Get user input from form
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // Validate the login credentials
-    if ($inputUsername === $username && $inputPassword === $password) {
-        $_SESSION['username'] = $username; 
-        header("Location: dashboard.php"); 
+    // Set up the web service client
+    $url = "https://cnmt310.classconvo.com/classreg/";
+    $client = new WebServiceClient($url);
+
+    $action = "authenticate";
+    $data = array("username" => $username, "password" => $password);
+    $fields = array(
+        "apikey" => $apikey,
+        "apihash" => $apihash,
+        "action" => $action,
+        "data" => $data
+    );
+
+    // Set fields and send the request
+    $client->setPostFields($fields);
+    $result = $client->send();
+
+    // Decode JSON response
+    $jsonResult = json_decode($result);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        print "Result is not JSON";
+        exit;
+    }
+
+    // Handle the result of authentication
+    if ($jsonResult->result == "Success") {
+        $_SESSION['username'] = $username;
+        $_SESSION['user_role'] = $jsonResult->data->user_role;
+        header("Location: index.php");
         exit;
     } else {
         $error_message = "Invalid Username or Password!";
@@ -27,15 +52,15 @@ print "<head>";
 print "<meta charset=\"UTF-8\">";
 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 print "<title>Login Page</title>";
-print "<link rel=\"stylesheet\" href=\"styles.css\"> <!-- Optional CSS for styling -->";
+print "<link rel=\"stylesheet\" href=\"C:\Users\jlasz171\Desktop\CNMT310FP\CSS\style.css">";
 print "</head>";
 print "<body>";
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";
-if (!empty(\$error_message)) {
+if (!empty($error_message)) {
     print "<p class='error-message'>\$error_message</p>";
 }
-print "<form method=\"POST\" action=\"login.php\">";
+print "<form method=\"POST\" action=\"Login.php\">";
 print "<label for=\"username\">Username:</label>";
 print "<input type=\"text\" id=\"username\" name=\"username\" required>";
 print "<label for=\"password\">Password:</label>";
