@@ -2,6 +2,18 @@
 session_start(); 
 require_once("../WebServiceClient.php");
 
+
+//get session variable user role to determine if its public or admin or if not logged in
+//if not logged in set role to public
+$role = $_SESSION['user_role'];
+if(!isset($_SESSION['user_role'])){
+    $role = "public";
+    //if student or admin redirect to student page
+}else if($role == "student" || $role == "admin"){ //do we want admin to also be able to access student page
+    header("Location: student.php");
+    exit();
+}
+
 //since its public user doesnt need to login
 $apikey = "api36";
 $apihash = "kmpcpahw";
@@ -30,6 +42,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 print (var_dump($jsonResult));//for debugging
 
+//if successful return list of courses
 if ($jsonResult->result == "Success") {
     foreach ($jsonResult->data as $key => $value) {
         $props = get_object_vars($jsonResult->data[$key]);
@@ -41,3 +54,6 @@ if ($jsonResult->result == "Success") {
     print "Failed to retrieve courses";
 }
 
+//link to return to main page
+print "<br>";
+print "<a href=\"../index.php\">Return to Main Page</a>";
