@@ -15,8 +15,8 @@ if(!isset($_SESSION['user_role'])){
 }
 
 //since its public user doesnt need to login
-$apikey = "api36";
-$apihash = "kmpcpahw";
+$apikey = "";
+$apihash = "";
 
 
 // Set up the web service client
