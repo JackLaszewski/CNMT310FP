@@ -1,16 +1,16 @@
 <?php
 session_start(); 
 
-require_once("WebServiceClient.php");
+require_once("../WebServiceClient.php");
 
-if (!isset($_SESSION['user_role'])) {
-    header("Location: login.php");
-    exit;
-}
+// if (!($_SESSION['user_role']) == "admin") {
+//     header("Location: 403.php");
+//     exit;
+// }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $apikey = "api86";
-    $apihash = "fefgwrv";
+    $apikey = "";
+    $apihash = "";
     
     // Get user input from form
     $coursename = $_POST['coursename'];

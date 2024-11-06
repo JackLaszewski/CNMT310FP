@@ -3,8 +3,8 @@ session_start();
 require_once("../WebServiceClient.php");
 
 //since its public user doesnt need to login
-$apikey = "api36";
-$apihash = "kmpcpahw";
+$apikey = "";
+$apihash = "";
 
 
 // Set up the web service client
