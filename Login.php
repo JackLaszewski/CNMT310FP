@@ -68,6 +68,9 @@ print "<input type=\"password\" id=\"password\" name=\"password\" required>";
 print "<button type=\"submit\">Login</button>";
 print "</form>";
 print "</div>";
+
+print "<p><a href=\"index.php\">Return to Main Page</a></p>";
+
 print "</body>";
 print "</html>";
 ?>
