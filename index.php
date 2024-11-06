@@ -14,7 +14,7 @@ print "</header>";
 print "<nav>";
 print "<ul>";
 print "<li><a href=\"index.php\">Home</a></li>";
-print "<li><a href=\"\">Classes</a></li>";
+print "<li><a href=\"views/public.php\">Classes</a></li>";
 print "<li><a href=\"Login.php\">Login</a></li>";
 print "</ul>";
 print "</nav>";

@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle the result of authentication
     if ($jsonResult->result == "Success") {
         $_SESSION['username'] = $username;
-        $_SESSION['user_role'] = $jsonResult->data->user_role;
+        $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
         header("Location: index.php");
         exit;
     } else {
@@ -52,7 +52,7 @@ print "<head>";
 print "<meta charset=\"UTF-8\">";
 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 print "<title>Login Page</title>";
-print "<link rel=\"stylesheet\" href=\"C:\Users\jlasz171\Desktop\CNMT310FP\CSS\style.css\">";
+print "<link rel=\"stylesheet\" href=\"CSS/style.css\">";
 print "</head>";
 print "<body>";
 print "<div class=\"login-container\">";
