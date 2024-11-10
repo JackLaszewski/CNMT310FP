@@ -31,6 +31,29 @@ nav li a {
 }
 
 nav li a:hover {
-    background-color: #111;
+    background-color: #535252;
 }
 
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.course-table th, .course-table td {
+    border: 1px solid #4e4e4e;
+    padding: 12px;
+    text-align: left;
+}
+
+.course-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.course-table tr:nth-child(even) {
+    background-color: #b6b6b6;
+}
+
+.course-table tr:hover {
+    background-color: #f0d9d2;
+}

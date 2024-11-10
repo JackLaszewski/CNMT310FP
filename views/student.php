@@ -2,9 +2,26 @@
 session_start(); 
 require_once("../WebServiceClient.php");
 
+//start of html because of print in validation
+print "<!DOCTYPE html>";
+print "<html lang=\"en\">";
+print "<head>";
+print "<meta charset=\"UTF-8\">";
+print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+print "<title>Student Page</title>";
+print "<link rel=\"stylesheet\" href=\"../CSS/style.css\">";
+print "</head>";
+print "<body>";
+
 //get session variable user role to determine if its public or admin or if not logged in
 //make sure to redirect to login if not logged in 
 //add validation later
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] != "student"){
+    print "<script>alert('Please login as a student.');
+            window.location.href='../Login.php';
+            </script>";
+    exit();
+}
 
 //since its public user doesnt need to login
 $apikey = "";
@@ -32,16 +49,26 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit;
 }
 
-print (var_dump($jsonResult));//for debugging
+//page header
+print "<header>";
+print "<h1>Student Page</h1>";
+print "</header>";
 
-//if successful return list of courses
+//if successful print list of courses
 if ($jsonResult->result == "Success") {
+    print "<table class='course-table'>";
+    print "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th></tr>";
     foreach ($jsonResult->data as $key => $value) {
         $props = get_object_vars($jsonResult->data[$key]);
+        print "<tr>";
         foreach ($props as $pkey => $pval) {
-            print $pkey . ": " . $pval . "<br>" . PHP_EOL;
+            if ($pkey != "id" && $pkey != "owner_id") { //id and owner_id are not needed and mess up table
+                print "<td>" . $pval . "</td>";
+            }
         }
+        print "</tr>";
     }
+    print "</table>";
 } else {
     print "Failed to retrieve courses";
 }
@@ -49,3 +76,6 @@ if ($jsonResult->result == "Success") {
 //link to return to main page
 print "<br>";
 print "<a href=\"../index.php\">Return to Main Page</a>";
+
+print "</body>";
+print "</html>";
