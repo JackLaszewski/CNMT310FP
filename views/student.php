@@ -17,9 +17,8 @@ print "<body>";
 //make sure to redirect to login if not logged in 
 //add validation later
 if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] != "student"){
-    $_SESSION['error_message'] = 'Please login as a student.'; //changed to session variable to store error message and display on login page
-    header('Location: ../login.php');
-    exit();
+    $_SESSION['error_message'] = "Please login as a student."; //changed to session variable to store error message and display on login page
+    exit(header('Location: ../login.php')); 
 }
 
 //since its public user doesnt need to login
