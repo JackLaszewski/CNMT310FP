@@ -55,6 +55,14 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 print "<header>";
 print "<h1>Public Page</h1>";
 print "</header>";
+//nav bar
+print "<nav>";
+print "<ul>";
+print "<li><a href=\"../index.php\">Home</a></li>";
+print "<li><a href=\"public.php\">Classes</a></li>";
+print "<li><a href=\"../Login.php\">Login</a></li>";
+print "</ul>";
+print "</nav>";
 
 //if successful print list of courses
 if ($jsonResult->result == "Success") {
