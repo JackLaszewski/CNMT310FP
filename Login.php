@@ -4,8 +4,8 @@ require_once("WebServiceClient.php");
 
 // Check if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $apikey = "api86";
-    $apihash = "fefgwrv";
+    $apikey = "api36";
+    $apihash = "kmpcpahw";
 
     // Get user input from form
     $username = $_POST['username'];
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index.php");
         exit;
     } else {
-        $error_message = "Invalid Username or Password!";
+        $_SESSION['error_message'] = "Invalid Username or Password!";
     }
 }
 
@@ -58,8 +58,8 @@ print "</head>";
 print "<body>"; 
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";
-if (!empty($error_message)) {
-    print "<p class='error-message'>\$error_message</p>";
+if (!empty($_SESSION['error_message'])) {
+    print "<p class='error-message'>{$_SESSION['error_message']}</p>";
 }
 print "<form method=\"POST\" action=\"login.php\">";
 print "<label for=\"username\">Username:</label>";

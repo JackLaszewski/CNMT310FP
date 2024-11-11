@@ -17,15 +17,14 @@ print "<body>";
 //make sure to redirect to login if not logged in 
 //add validation later
 if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] != "student"){
-    print "<script>alert('Please login as a student.');
-            window.location.href='../Login.php';
-            </script>";
+    $_SESSION['error_message'] = 'Please login as a student.'; //changed to session variable to store error message and display on login page
+    header('Location: ../login.php');
     exit();
 }
 
 //since its public user doesnt need to login
-$apikey = "";
-$apihash = "";
+$apikey = "api36";
+$apihash = "kmpcpahw";
 
 
 // Set up the web service client
