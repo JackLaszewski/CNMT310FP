@@ -38,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle the result of authentication
     if ($jsonResult->result == "Success") {
         $_SESSION['username'] = $username;
+
         $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
         header("Location: index.php");
         exit;
@@ -60,7 +61,7 @@ print "<h2>Login</h2>";
 if (!empty($error_message)) {
     print "<p class='error-message'>\$error_message</p>";
 }
-print "<form method=\"POST\" action=\"Login.php\">";
+print "<form method=\"POST\" action=\"login.php\">";
 print "<label for=\"username\">Username:</label>";
 print "<input type=\"text\" id=\"username\" name=\"username\" required>";
 print "<label for=\"password\">Password:</label>";
