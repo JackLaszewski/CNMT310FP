@@ -4,8 +4,8 @@ require_once("WebServiceClient.php");
 
 // Check if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $apikey = "";
-    $apihash = "";
+    $apikey = "api86";
+    $apihash = "fefgwrv";
 
     // Get user input from form
     $username = $_POST['username'];

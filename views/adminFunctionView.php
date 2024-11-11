@@ -3,12 +3,17 @@
 require_once("adminFunctionClass.php");
 
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ../Errors/403.php");
     exit;
 }
 
-// Get the action from the query parameter
+// Get the action from the session variable or query parameter
 $action = isset($_GET['action']) ? $_GET['action'] : null;
+
+// If a POST request is made with a delete action, use the delete_class action
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
+    $action = 'delete_class';
+}
 
 print "<!DOCTYPE html>";
 print "<html lang=\"en\">";
@@ -16,7 +21,7 @@ print "<head>";
 print "<meta charset=\"UTF-8\">";
 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 print "<title>Admin Functions</title>";
-print "<link rel=\"stylesheet\" href=\"style.css\">";
+print "<link rel=\"stylesheet\" href=\"../CSS/admin.css\">";
 print "</head>";
 print "<body>";
 print "<h1>Admin Functions</h1>";
@@ -26,15 +31,19 @@ $adminFunctions = new AdminFunctionClass();
 
 switch ($action) {
     case 'add_class':
-        // Display the form for adding a class
         $adminFunctions->addClassTemplateView();
         break;
     case 'manage_classes':
-        // Placeholder for managing classes functionality
-        $adminFunctions->manageClasses();
+        $adminFunctions->manageClassesView();
+        break;
+    case 'delete_class':
+        if (isset($_POST['course_id'])) {
+            $adminFunctions->deleteClassApiCall($_POST['course_id']);
+        } else {
+            print "<p>No course ID provided for deletion.</p>";
+        }
         break;
     case 'manage_students':
-        // Placeholder for managing students functionality
         $adminFunctions->manageStudents();
         break;
     default:

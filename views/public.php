@@ -16,8 +16,8 @@ $role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : "public";
 }
 
 //since its public user doesnt need to login
-$apikey = "";
-$apihash = "";
+ $apikey = "api86";
+    $apihash = "fefgwrv";
 
 
 // Set up the web service client
