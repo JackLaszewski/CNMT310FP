@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION['error_message']);//clears error message when user returns to landing page
 
 print "<!doctype html>";
 print "<html lang=\"en\">";
