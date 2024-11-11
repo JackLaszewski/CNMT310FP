@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("views/courseTableFunctions.php");
 unset($_SESSION['error_message']);//clears error message when user returns to landing page
 
 print "<!doctype html>";
@@ -29,9 +30,27 @@ if (!isset($_SESSION['user_role'])) {
         print "<li><a href=\"views/adminDashboard.php\">Admin Dashboard</a></li>";
     }
 }
-
 print "</ul>";
 print "</nav>";
+
+
+print "<div class=\"card-container\">";
+print "<div class=\"class-card\">";
+print "<h3>Card 1</h3>";
+print "<p>This is a card.</p>";
+
+//testing functions
+// $courses = getCourses();
+// displayCourses($courses);
+
+print "</div>";
+
+print "<div class=\"login-card\">";
+print "<h3>Card 2</h3>";
+print "<p>This is another card.</p>";
+print "</div>";
+print "</div>";
+
 
 print "</body>";
 print "</html>";
