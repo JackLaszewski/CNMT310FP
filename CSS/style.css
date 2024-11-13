@@ -69,6 +69,7 @@ nav li a:hover {
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px;
+    overflow-x: auto;
 }
 
 .class-card {
@@ -91,4 +92,23 @@ nav li a:hover {
 
 .card h3 {
     margin-top: 0;
+}
+
+/* card styling pertaining to the table */
+
+.card-container .course-table {
+    width: 100%;
+    max-width: 100%;
+}
+
+.card-container .course-table th, .card-container .course-table td {
+    padding: 6px;
+    font-size: 14px;
+}
+
+.card-container .course-table th {
+    background-color: #007bff;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
