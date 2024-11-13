@@ -68,18 +68,17 @@ nav li a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    overflow-x: auto;
 }
 
 .class-card {
     margin: 20px;
-    width: 600px;
+    width: 65%;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     padding: 10px;
 }
-
 .login-card {
     margin: 20px;
     width: 300px;
@@ -91,4 +90,25 @@ nav li a:hover {
 
 .card h3 {
     margin-top: 0;
+}
+
+/* card styling pertaining to the table */
+
+.card-container .course-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed;
+}
+
+.card-container .course-table th, .card-container .course-table td {
+    padding: 6px !important;
+    font-size: 14px !important;
+    word-break: break-all;
+}
+
+.card-container .course-table th {
+    background-color: #007bff;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }

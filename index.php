@@ -22,6 +22,7 @@ print "<li><a href=\"index.php\">Home</a></li>";
 if (!isset($_SESSION['user_role'])) {
     print "<li><a href=\"views/public.php\">Classes</a></li>";
     print "<li><a href=\"login.php\">Login</a></li>";
+
 } else {
     // Check if user is an admin and show the admin dashboard link
     if ($_SESSION['user_role'] == 'admin') {
@@ -35,14 +36,15 @@ if (!isset($_SESSION['user_role'])) {
 print "</ul>";
 print "</nav>";
 
+
 print "<div class=\"card-container\">";
 print "<div class=\"class-card\">";
 print "<h3>Card 1</h3>";
 print "<p>This is a card.</p>";
 
 //testing functions
-// $courses = getCourses();
-// displayCourses($courses);
+$courses = getCourses();
+displayCourses($courses);
 
 print "</div>";
 
