@@ -7,10 +7,9 @@ require_once("courseTableFunctions.php");
 //if not logged in set role to public
 
 //get session variable user role to determine if its public or admin or if not logged in
-$role = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : "public";
 
 //if student or admin redirect to student page
- if($role == "student" || $role == "admin"){ //do we want admin to also be able to access student page
+ if($_SESSION['user_role'] == "student" || $_SESSION['user_role'] == "admin"){ //do we want admin to also be able to access student page
     header("Location: student.php");
     exit();
 }
