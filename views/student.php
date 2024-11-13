@@ -1,7 +1,10 @@
 <?php
-session_start(); 
-require_once("../studentFunctionClass.php");
+require_once("studentFunctionClass.php");
 
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'student') {
+    header("Location: ../Errors/403.php");
+    exit;
+}
 // Start of HTML
 print "<!DOCTYPE html>";
 print "<html lang=\"en\">";
@@ -22,7 +25,6 @@ print "<nav>";
 print "<ul>";
 print "<li><a href=\"../index.php\">Home</a></li>";
 print "<li><a href=\"public.php\">Classes</a></li>";
-print "<li><a href=\"../login.php\">Login</a></li>";
 print "</ul>";
 print "</nav>";
 

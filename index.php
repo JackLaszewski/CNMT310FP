@@ -17,8 +17,13 @@ print "</header>";
 print "<nav>";
 print "<ul>";
 print "<li><a href=\"index.php\">Home</a></li>";
-print "<li><a href=\"views/public.php\">Classes</a></li>";
 
+if($_SESSION['user_role'] == 'student'){
+    print "<li><a href=\"views/student.php\">Classes</a></li>";
+}
+else{
+    print "<li><a href=\"views/public.php\">Classes</a></li>";
+}
 // Check if user is not logged in
 if (!isset($_SESSION['user_role'])) {
     print "<li><a href=\"login.php\">Login</a></li>";
