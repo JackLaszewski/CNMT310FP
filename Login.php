@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $username;
 
         $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
+        $_SESSION['student_id'] = $jsonResult->data->id;
         header("Location: index.php");
         exit;
     } else {
