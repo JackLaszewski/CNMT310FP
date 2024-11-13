@@ -17,13 +17,12 @@ print "</header>";
 print "<nav>";
 print "<ul>";
 print "<li><a href=\"index.php\">Home</a></li>";
-print "<li><a href=\"views/public.php\">Classes</a></li>";
 
 // Check if user is not logged in
 if (!isset($_SESSION['user_role'])) {
+    print "<li><a href=\"views/public.php\">Classes</a></li>";
     print "<li><a href=\"login.php\">Login</a></li>";
 
-    print "<li><a href=\"views/public.php\">Classes</a></li>";
 } else {
     // Check if user is an admin and show the admin dashboard link
     if ($_SESSION['user_role'] == 'admin') {
