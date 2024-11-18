@@ -190,8 +190,6 @@ class AdminFunctionClass
 
     public function manageStudents()
     {
-        print "<p>Manage students functionality is under development.</p>";
-
         $apikey = "api86";
         $apihash = "fefgwrv";
 
@@ -219,22 +217,32 @@ class AdminFunctionClass
         if ($jsonResult->result == "Success") {
             print "<h2>Manage Students</h2>";
             print "<table class='student-table'>";
-            print "<tr><th>Student ID</th><th>Student Username</th><th>Student Name</th><th>Student Email</th></tr>";
+            print "<tr><th>Student ID</th><th>Student Username</th><th>Student Name</th><th>Student Email</th><th>View Student Courses</th></tr>";
 
             foreach ($jsonResult->data as $key => $value) {
                 $props = get_object_vars($jsonResult->data[$key]);
+                $studentId = $jsonResult->data[$key]->id;
                 print "<tr>";
                 foreach ($props as $pkey => $pval) {
-                    if($pkey != "user_role") {
-                    print "<td>" . htmlspecialchars($pval) . "</td>";
+                    if ($pkey != "user_role") {
+                        print "<td>" . htmlspecialchars($pval) . "</td>";
                     }
                 }
+                print "<td><button type=\"submit\" name=\"user_id\"" . $studentId . "\">View Courses</button></td>";
                 print "</tr>";
             }
             print "</table>";
         } else {
             print "Failed to retrieve students";
         }
+        //modal popup
+        print "<div class=\"modal\">";
+        print "<div class=\"modal-content\">";
+        print "<span class=\"close\">&times;</span>";
+        print "<h2>Modal Title</h2>";
+        print "<p>Modal content goes here.</p>";
+        print "</div>";
+        print "</div>";
 
         print "<br>";
         print "<a href=\"../index.php\">Return to Main Page</a>";
