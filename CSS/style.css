@@ -73,7 +73,7 @@ nav li a:hover {
 
 .class-card {
   margin: 20px;
-  width: 65%;
+  width: 77%;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -113,3 +113,4 @@ nav li a:hover {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+

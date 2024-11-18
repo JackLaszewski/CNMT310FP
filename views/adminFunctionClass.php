@@ -1,14 +1,16 @@
 <?php
-session_start(); 
+session_start();
 
 require_once("../WebServiceClient.php");
 
-class AdminFunctionClass {
-    public function addClassApiCall() {
+class AdminFunctionClass
+{
+    public function addClassApiCall()
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $apikey = "api86";
             $apihash = "fefgwrv";
-            
+
             // Get user input from form
             $coursename = $_POST['coursename'];
             $coursecode = $_POST['coursecode'];
@@ -18,14 +20,14 @@ class AdminFunctionClass {
             $courseinstr = $_POST['courseinstr'];
             $meetingtimes = $_POST['meetingtimes'];
             $maxenroll = $_POST['maxenroll'];
-        
+
             // Set up the web service client
             $url = "https://cnmt310.classconvo.com/classreg/";
             $client = new WebServiceClient($url);
-        
+
             $action = "addcourse";
             $data = array(
-                "coursename" => $coursename, 
+                "coursename" => $coursename,
                 "coursecode" => $coursecode,
                 "coursenum" => $coursenum,
                 "coursecredits" => $coursecredits,
@@ -40,18 +42,18 @@ class AdminFunctionClass {
                 "action" => $action,
                 "data" => $data
             );
-        
+
             // Set fields and send the request
             $client->setPostFields($fields);
             $result = $client->send();
-        
+
             // Decode JSON response
             $jsonResult = json_decode($result);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 print "Result is not JSON";
                 exit;
             }
-        
+
             // Handle Result of adding a class
             if ($jsonResult->result == "Success") {
                 $course_id = $jsonResult->data->course_id;
@@ -64,7 +66,8 @@ class AdminFunctionClass {
         }
     }
 
-    public function addClassTemplateView() {
+    public function addClassTemplateView()
+    {
         print "<form method=\"POST\" action=\"adminFunctionView.php?action=add_class\">";
         print "<label for=\"coursename\">Course name:</label>";
         print "<input type=\"text\" id=\"coursename\" name=\"coursename\" required><br>";
@@ -92,7 +95,8 @@ class AdminFunctionClass {
     }
 
     // This will display all classes 
-    public function manageClassesView() {
+    public function manageClassesView()
+    {
         $apikey = "api86";
         $apihash = "fefgwrv";
 
@@ -126,7 +130,7 @@ class AdminFunctionClass {
 
             foreach ($jsonResult->data as $key => $value) {
                 $props = get_object_vars($jsonResult->data[$key]);
-                $course_id = $jsonResult->data[$key]->id; 
+                $course_id = $jsonResult->data[$key]->id;
                 print "<tr>";
                 foreach ($props as $pkey => $pval) {
                     if ($pkey != "id" && $pkey != "owner_id") {
@@ -147,7 +151,8 @@ class AdminFunctionClass {
         print "<br>";
         print "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
     }
-    public function deleteClassApiCall($course_id) {
+    public function deleteClassApiCall($course_id)
+    {
         $apikey = "api86";
         $apihash = "fefgwrv";
 
@@ -177,14 +182,65 @@ class AdminFunctionClass {
         // Handle result of deleting a class
         if ($jsonResult->result == "Success") {
             print "<p>Course deleted successfully. Number of courses deleted: " . $jsonResult->data->course_deleted . "</p>";
-            print "<p>Number of student enrollments deleted: " .  $jsonResult->data->studentenrollmentsdeleted . "</p>";
+            print "<p>Number of student enrollments deleted: " . $jsonResult->data->studentenrollmentsdeleted . "</p>";
         } else {
-            print "<p>Failed to delete the course. Error: " .  $jsonResult->result . "</p>";
+            print "<p>Failed to delete the course. Error: " . $jsonResult->result . "</p>";
         }
     }
 
-    public function manageStudents() {
+    public function manageStudents()
+    {
         print "<p>Manage students functionality is under development.</p>";
+
+        $apikey = "api86";
+        $apihash = "fefgwrv";
+
+        // Set up the web service client
+        $url = "https://cnmt310.classconvo.com/classreg/";
+        $client = new WebServiceClient($url);
+
+        $action = "liststudents";
+        $wsData = array(
+            "apikey" => $apikey,
+            "apihash" => $apihash,
+            "action" => $action,
+            "data" => array()
+        );
+        $client->setPostFields($wsData);
+
+        $result = $client->send();
+        $jsonResult = json_decode($result);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            print "Result is not JSON";
+            exit;
+        }
+
+        if ($jsonResult->result == "Success") {
+            print "<h2>Manage Students</h2>";
+            print "<table class='student-table'>";
+            print "<tr><th>Student ID</th><th>Student Username</th><th>Student Name</th><th>Student Email</th></tr>";
+
+            foreach ($jsonResult->data as $key => $value) {
+                $props = get_object_vars($jsonResult->data[$key]);
+                print "<tr>";
+                foreach ($props as $pkey => $pval) {
+                    if($pkey != "user_role") {
+                    print "<td>" . htmlspecialchars($pval) . "</td>";
+                    }
+                }
+                print "</tr>";
+            }
+            print "</table>";
+        } else {
+            print "Failed to retrieve students";
+        }
+
+        print "<br>";
+        print "<a href=\"../index.php\">Return to Main Page</a>";
+        print "<br>";
+        print "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
+
     }
 }
 ?>
