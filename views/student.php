@@ -19,7 +19,7 @@ print "<header>";
 print "<h1>Student Page</h1>";
 print "</header>";
 
-// Nav
+// nav
 print "<nav>";
 print "<ul>";
 print "<li><a href=\"../index.php\">Home</a></li>";
