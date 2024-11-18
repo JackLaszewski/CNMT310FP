@@ -79,7 +79,7 @@ class StudentFunctionClass {
                 "student_id" => $student_id,
                 "course_id" => $course_id
             )
-        )
+            );
         
         $client->setPostFields($wsData);
         $result = $client->send();
