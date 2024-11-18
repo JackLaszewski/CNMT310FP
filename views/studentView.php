@@ -1,17 +1,23 @@
 <?php
-session_start(); 
+session_start();
 require_once("../WebServiceClient.php");
+require_once("../views/studentFunctionClass.php");
 
+// Ensure the student is logged in
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== "student") {
+    header("Location: ../Errors/403.php");
+    exit();
+}
+
+$student_id = $_SESSION['student_id'] ?? null;
 $apikey = "api86";
 $apihash = "fefgwrv";
-
-$student_id = $_SESSION['student_id'] ?? null; 
 $error_message = "";
 $success_message = "";
 
+// Handle adding a student to a course
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $course_id = $_POST['course_id'];
-
     if ($student_id) {
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -43,6 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     }
 }
 
+$studentFunctions = new StudentFunctionClass();
+try {
+    $coursesHTML = $studentFunctions->listStudentCourses($_SESSION['student_id']);
+} catch (Exception $e) {
+    $coursesHTML = "<p>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+}
+
 print "<!DOCTYPE html>";
 print "<html lang=\"en\">";
 print "<head>";
@@ -62,6 +75,10 @@ if ($success_message) {
     print "<p class='success-message'>" . htmlspecialchars($success_message) . "</p>";
 }
 
+print "<h2>Available Courses</h2>";
+print $coursesHTML;
+
+print "<h2>Add a Course</h2>";
 print "<form method=\"POST\" action=\"studentView.php\">";
 print "<label for=\"course_id\">Course ID:</label>";
 print "<input type=\"text\" id=\"course_id\" name=\"course_id\" required>";
@@ -69,7 +86,6 @@ print "<button type=\"submit\">Add to Course</button>";
 print "</form>";
 
 print "<p><a href=\"../index.php\">Return to Main Page</a></p>";
-
 print "</div>";
 print "</body>";
 print "</html>";
