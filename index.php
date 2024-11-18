@@ -28,11 +28,10 @@ if (!isset($_SESSION['user_role'])) {
     // Check if user is an admin and show the admin dashboard link
     if ($_SESSION['user_role'] == 'admin') {
         print "<li><a href=\"views/adminDashboard.php\">Admin Dashboard</a></li>";
-    }
-    elseif($_SESSION['user_role'] == 'student'){
+    } elseif ($_SESSION['user_role'] == 'student') {
         print "<li><a href=\"views/student.php\">Classes</a></li>";
     }
-    print "<li><a href=\"logout.php\">Logout</a></li>";
+    print "<li><a id =\"logout-button\" href=\"logout.php\">Logout</a></li>";
 }
 print "</ul>";
 print "</nav>";
@@ -46,12 +45,9 @@ print "<p>This is a card.</p>";
 //testing functions
 $courses = getCourses();
 displayCourses($courses);
-
 print "</div>";
 
-print "<div class=\"login-card\">";
-print "<h3>Card 2</h3>";
-print "<p>This is another card.</p>";
+
 
 //NEED TO MAKE LOGIN CLASS TO CLEAN THIS UP
 // Check if the form has been submitted
@@ -90,7 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle the result of authentication
     if ($jsonResult->result == "Success") {
         $_SESSION['username'] = $username;
-
         $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
         header("Location: index.php");
         exit;
@@ -99,19 +94,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+print "<div class=\"login-card\">";
+print "<h3>Card 2</h3>";
+print "<p>This is another card.</p>";
+
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";
 if (!empty($_SESSION['error_message'])) {
     print "<p class='error-message'>{$_SESSION['error_message']}</p>";
 }
-print "<form method=\"POST\" action=\"login.php\" onsubmit=\"return false;\">"; //onsubmit="return false;" because the page refreshing make the card reappear
+print "<form id=\"login-form\" method=\"POST\" >";
 print "<label for=\"username\">Username:</label>";
 print "<input type=\"text\" id=\"username\" name=\"username\" required>";
 print "<label for=\"password\">Password:</label>";
 print "<input type=\"password\" id=\"password\" name=\"password\" required>";
-print "<button type=\"submit\">Login</button>";
+print "<button id=\"login-button\" type=\"submit\">Login</button>";
 print "</form>";
 print "</div>";
+
 
 print "</div>";
 print "</div>";
