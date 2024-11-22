@@ -7,6 +7,14 @@ class AdminFunctionClass
 {
     public function addClassApiCall()
     {
+        //We want to get rid of Request_Method and use $_Post for security reasons 
+        //$exoected = array("coursename", "coursecode","coursenum","courseinstructor", ect.)
+
+        //foreach )$expected as $value)
+        //if(!isset($_POST($value)|| empty($_POST($vlaue))))
+        //$_SESSION('errors')[] = "Please cmoplete all fields
+        //die(header("location: /index.php))
+        
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $apikey = "api86";
             $apihash = "fefgwrv";
@@ -21,7 +29,6 @@ class AdminFunctionClass
             $meetingtimes = $_POST['meetingtimes'];
             $maxenroll = $_POST['maxenroll'];
 
-            // Set up the web service client
             $url = "https://cnmt310.classconvo.com/classreg/";
             $client = new WebServiceClient($url);
 
@@ -43,11 +50,9 @@ class AdminFunctionClass
                 "data" => $data
             );
 
-            // Set fields and send the request
             $client->setPostFields($fields);
             $result = $client->send();
 
-            // Decode JSON response
             $jsonResult = json_decode($result);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 print "Result is not JSON";
@@ -97,8 +102,8 @@ class AdminFunctionClass
     // This will display all classes 
     public function manageClassesView()
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = "";
+        $apihash = "";
 
         // Set up the web service client
         $url = "https://cnmt310.classconvo.com/classreg/";
@@ -137,6 +142,7 @@ class AdminFunctionClass
                         print "<td>" . htmlspecialchars($pval) . "</td>";
                     }
                 }
+                //Here we set the value of course id so deleting it, is super easy
                 print "<td><button type=\"submit\" name=\"course_id\" value=\"$course_id\">Delete</button></td>";
                 print "</tr>";
             }
@@ -153,10 +159,9 @@ class AdminFunctionClass
     }
     public function deleteClassApiCall($course_id)
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = "";
+        $apihash = "";
 
-        // Set up the web service client
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
 
@@ -190,10 +195,9 @@ class AdminFunctionClass
 
     public function manageStudents()
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = "";
+        $apihash = "";
 
-        // Set up the web service client
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
 

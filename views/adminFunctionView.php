@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
 // If a POST request is made with a delete action, use the delete_class action
+//we dont want request method 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $action = 'delete_class';
 }
@@ -28,7 +29,7 @@ print "<h1>Admin Functions</h1>";
 print "<div class=\"admin-content\">";
 
 $adminFunctions = new AdminFunctionClass();
-
+//Switch case depending on what they choose in the admin dashboard
 switch ($action) {
     case 'add_class':
         $adminFunctions->addClassTemplateView();

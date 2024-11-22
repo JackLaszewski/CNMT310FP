@@ -3,7 +3,7 @@ session_start();
 require_once("../WebServiceClient.php");
 require_once("../views/studentFunctionClass.php");
 
-// Ensure the student is logged in
+// Check the student is logged in
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== "student") {
     header("Location: ../Errors/403.php");
     exit();

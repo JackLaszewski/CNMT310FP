@@ -18,8 +18,11 @@ print "<body>";
 print "<div class=\"dashboard-container\">";
 print "<h1>Admin Dashboard</h1>";
 print "<div class=\"dashboard-links\">";
+//Add Class
 print "<a href=\"../views/adminFunctionView.php?action=add_class\" class=\"dashboard-link add-class\">Add Class</a>";
+//Manage Class
 print "<a href=\"../views/adminFunctionView.php?action=manage_classes\" class=\"dashboard-link manage-classes\">Manage Classes</a>";
+//Manage Students
 print "<a href=\"../views/adminFunctionView.php?action=manage_students\" class=\"dashboard-link manage-students\">Manage Students</a>";
 print "</div>";
 print "<p><a href=\"../index.php\">Return to Main Page</a></p>";
