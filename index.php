@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("views/courseTableFunctions.php");
+require_once("views/loginFunctionsClass.php");
 unset($_SESSION['error_message']);//clears error message when user returns to landing page
 
 print "<!doctype html>";
@@ -48,50 +49,11 @@ displayCourses($courses);
 print "</div>";
 
 
-
-//NEED TO MAKE LOGIN CLASS TO CLEAN THIS UP
 // Check if the form has been submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $apikey = "api36";
-    $apihash = "kmpcpahw";
-
-    // Get user input from form
+if ($_SERVER["REQUEST_METHOD"] == "POST") {//dont do this
     $username = $_POST['username'];
     $password = $_POST['password'];
-
-    // Set up the web service client
-    $url = "https://cnmt310.classconvo.com/classreg/";
-    $client = new WebServiceClient($url);
-
-    $action = "authenticate";
-    $data = array("username" => $username, "password" => $password);
-    $fields = array(
-        "apikey" => $apikey,
-        "apihash" => $apihash,
-        "action" => $action,
-        "data" => $data
-    );
-
-    // Set fields and send the request
-    $client->setPostFields($fields);
-    $result = $client->send();
-
-    // Decode JSON response
-    $jsonResult = json_decode($result);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        print "Result is not JSON";
-        exit;
-    }
-
-    // Handle the result of authentication
-    if ($jsonResult->result == "Success") {
-        $_SESSION['username'] = $username;
-        $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
-        header("Location: index.php");
-        exit;
-    } else {
-        $_SESSION['error_message'] = "Invalid Username or Password!";
-    }
+    Login($username,$password);
 }
 
 print "<div class=\"login-card\">";
