@@ -247,7 +247,6 @@ class AdminFunctionClass
         print "<div class=\"modal-content\">";
         print "<span class=\"close\">&times;</span>";
         print "<h2>Students Courses</h2>";
-        print "<p>Modal content goes here.</p>";
         $studentFunctions = new StudentFunctionClass();
         $studentId = $_POST['user_id'] ?? null; //sets the student id to null if not set or empty
         if ($studentId) {
