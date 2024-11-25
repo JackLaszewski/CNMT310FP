@@ -1,9 +1,8 @@
 <?php
 function Login($username, $password)
 {
-    $apikey = "api36";
-    $apihash = "kmpcpahw";
-
+    $apikey = "api86";
+    $apihash = "fefgwrv";
     // Set up the web service client
     $url = "https://cnmt310.classconvo.com/classreg/";
     $client = new WebServiceClient($url);
@@ -31,6 +30,7 @@ function Login($username, $password)
     if ($jsonResult->result == "Success") {
         $_SESSION['username'] = $username;
         $_SESSION['user_role'] = $jsonResult->data->user_role; //can use this to check if user is loggen in and what role they have
+        $_SESSION['student_id'] = $jsonResult->data->id;
         header("Location: index.php");
         exit;
     } else {

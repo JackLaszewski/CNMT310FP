@@ -5,21 +5,17 @@ require_once("../WebServiceClient.php");
 
 class StudentFunctionClass {
 
-    public function studentViewClasses() {
-
-        // Check if the user is logged in as a student
-        if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != "student") {
-            $_SESSION['error_message'] = "Please login as a student.";
-            header('Location: ../login.php');
-            exit;
+    public function studentViewClasses($student_id) {
+        if (!$student_id) {
+            throw new Exception("Student ID is missing. Please log in again.");
         }
-
-        $apikey = "";
-        $apihash = "";
-
+    
+        $apikey = "api86";
+        $apihash = "fefgwrv";
+    
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
-
+    
         $action = "listcourses";
         $wsData = array(
             "apikey" => $apikey,
@@ -30,18 +26,17 @@ class StudentFunctionClass {
         $client->setPostFields($wsData);
         $result = $client->send();
         $jsonResult = json_decode($result);
-
+    
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("Result is not JSON");
         }
-
+    
         if ($jsonResult->result == "Success") {
             $courses = $jsonResult->data;
             $output = "<div class='container'>";
             $output .= "<table class='course-table'>";
             $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
             foreach ($courses as $course) {
-                //get_object_vars returns arrays of all properites in the object
                 $props = get_object_vars($course);
                 $course_id = $course->id;
                 $output .= "<tr>";
@@ -50,7 +45,12 @@ class StudentFunctionClass {
                         $output .= "<td>" . htmlspecialchars($value) . "</td>";
                     }
                 }
-                $output .= "<td><form method='POST' action='student.php?action=add_to_course'><button type='submit' name='course_id' value='" . htmlspecialchars($course_id) . "'>Add to Course</button></form></td>";
+                $output .= "<td>
+                            <form method='POST' action='studentView.php'>
+                                <input type='hidden' name='course_id' value='" . htmlspecialchars($course_id) . "'>
+                                <button type='submit'>Add to Course</button>
+                            </form>
+                            </td>";
                 $output .= "</tr>";
             }
             $output .= "</table>";
@@ -60,7 +60,6 @@ class StudentFunctionClass {
             throw new Exception("Failed to retrieve courses: " . $jsonResult->result);
         }
     }
-
     public function listStudentCourses($student_id) {
 
         $apikey = "api86";
@@ -109,18 +108,17 @@ class StudentFunctionClass {
             throw new Exception("Failed to retrieve student courses: " . $jsonResult->result);
         }
     }
-    public function addStudentToCourse($course_id, $student_id) {
-        $student_id = $_SESSION['student_id'] ?? null;
+    public function addStudentToCourse($student_id, $course_id) {
         if (!$student_id) {
             throw new Exception("Student ID is missing. Please log in again.");
         }
-
-        $apikey = "";
-        $apihash = "";
-
+    
+        $apikey = "api86";
+        $apihash = "fefgwrv";
+    
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
-
+    
         $action = "addstudent2course";
         $wsData = array(
             "apikey" => $apikey,
@@ -131,21 +129,24 @@ class StudentFunctionClass {
                 "course_id" => $course_id
             )
         );
-
+    
+    
         $client->setPostFields($wsData);
         $result = $client->send();
         $jsonResult = json_decode($result);
-
+    
         // Handle errors in JSON response
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Response is not valid JSON.");
+            throw new Exception("Response is not valid JSON. Raw response: " . $result);
         }
         if ($jsonResult->result === "Success") {
             return "Successfully added to the course!";
         } else {
-            throw new Exception("Failed to add to the course: " . htmlspecialchars($jsonResult->message ?? "Unknown error."));
+            $errorMessage = htmlspecialchars($jsonResult->message ?? "Unknown error.");
+            throw new Exception("Failed to add to the course: " . $errorMessage);
         }
     }
+    
 }
 
 ?>

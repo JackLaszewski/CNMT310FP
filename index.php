@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_role'])) {
     if ($_SESSION['user_role'] == 'admin') {
         print "<li><a href=\"views/adminDashboard.php\">Admin Dashboard</a></li>";
     } elseif ($_SESSION['user_role'] == 'student') {
-        print "<li><a href=\"views/student.php\">Student Classes</a></li>";
+        print "<li><a href=\"views/studentView.php\">Student Classes</a></li>";
     }
     print "<li><a id =\"logout-button\" href=\"logout.php\">Logout</a></li>";
 }
