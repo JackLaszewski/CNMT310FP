@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_role'])) {
     if ($_SESSION['user_role'] == 'admin') {
         print "<li><a href=\"views/adminDashboard.php\">Admin Dashboard</a></li>";
     } elseif ($_SESSION['user_role'] == 'student') {
-        print "<li><a href=\"views/student.php\">Classes</a></li>";
+        print "<li><a href=\"views/student.php\">Student Classes</a></li>";
     }
     print "<li><a id =\"logout-button\" href=\"logout.php\">Logout</a></li>";
 }
@@ -40,14 +40,11 @@ print "</nav>";
 
 print "<div class=\"card-container\">";
 print "<div class=\"class-card\">";
-print "<h3>Card 1</h3>";
-print "<p>This is a card.</p>";
+print "<h3>Classes</h3>";
 
-//testing functions
 $courses = getCourses();
 displayCourses($courses);
 print "</div>";
-
 
 // Check if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {//dont do this
@@ -57,9 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {//dont do this
 }
 
 print "<div class=\"login-card\">";
-print "<h3>Card 2</h3>";
-print "<p>This is another card.</p>";
-
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";
 if (!empty($_SESSION['error_message'])) {
