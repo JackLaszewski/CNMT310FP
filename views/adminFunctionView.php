@@ -23,6 +23,7 @@ print "<meta charset=\"UTF-8\">";
 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 print "<title>Admin Functions</title>";
 print "<link rel=\"stylesheet\" href=\"../CSS/admin.css\">";
+print "<script src=\"../JS/admin.js\"></script>";
 print "</head>";
 print "<body>";
 print "<h1>Admin Functions</h1>";

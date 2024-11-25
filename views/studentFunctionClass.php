@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 
 require_once("../WebServiceClient.php");
 
@@ -63,8 +63,8 @@ class StudentFunctionClass {
 
     public function listStudentCourses($student_id) {
 
-        $apikey = "";
-        $apihash = "";
+        $apikey = "api86";
+        $apihash = "fefgwrv";
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);

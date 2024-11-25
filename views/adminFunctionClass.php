@@ -2,9 +2,12 @@
 session_start();
 
 require_once("../WebServiceClient.php");
+require_once("./studentFunctionClass.php");
+
 
 class AdminFunctionClass
 {
+
     public function addClassApiCall()
     {
         //We want to get rid of Request_Method and use $_Post for security reasons 
@@ -102,8 +105,8 @@ class AdminFunctionClass
     // This will display all classes 
     public function manageClassesView()
     {
-        $apikey = "";
-        $apihash = "";
+        $apikey = "api86";
+        $apihash = "fefgwrv";
 
         // Set up the web service client
         $url = "https://cnmt310.classconvo.com/classreg/";
@@ -159,8 +162,8 @@ class AdminFunctionClass
     }
     public function deleteClassApiCall($course_id)
     {
-        $apikey = "";
-        $apihash = "";
+        $apikey = "api86";
+        $apihash = "fefgwrv";
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -195,8 +198,8 @@ class AdminFunctionClass
 
     public function manageStudents()
     {
-        $apikey = "";
-        $apihash = "";
+        $apikey = "api86";
+        $apihash = "fefgwrv";
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -232,7 +235,7 @@ class AdminFunctionClass
                         print "<td>" . htmlspecialchars($pval) . "</td>";
                     }
                 }
-                print "<td><button type=\"submit\" name=\"user_id\"" . $studentId . "\">View Courses</button></td>";
+                print "<td><button id=\"view-course\" type=\"submit\" name=\"user_id\"" . $studentId . "\">View Courses</button></td>";
                 print "</tr>";
             }
             print "</table>";
@@ -240,11 +243,19 @@ class AdminFunctionClass
             print "Failed to retrieve students";
         }
         //modal popup
-        print "<div class=\"modal\">";
+        print "<div id=\"modal\" class=\"modal\">";
         print "<div class=\"modal-content\">";
         print "<span class=\"close\">&times;</span>";
-        print "<h2>Modal Title</h2>";
+        print "<h2>Students Courses</h2>";
         print "<p>Modal content goes here.</p>";
+        $studentFunctions = new StudentFunctionClass();
+        $studentId = $_POST['user_id'] ?? null; //sets the student id to null if not set or empty
+        if ($studentId) {
+            $studentFunctions->listStudentCourses($studentId);
+        } else {
+            print "<p>No student ID provided.</p>";
+        }
+
         print "</div>";
         print "</div>";
 
