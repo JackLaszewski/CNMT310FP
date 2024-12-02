@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch('ModalStudentCourses.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/html',
             },
             body: JSON.stringify({ student_id: studentId }) // Send student ID to PHP
         })
