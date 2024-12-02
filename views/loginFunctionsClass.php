@@ -1,5 +1,5 @@
 <?php
-require_once("../apiConfig.php");
+require_once(__DIR__ . "/../apiConfig.php");
 function Login($username, $password)
 {
     $apikey = API_KEY;

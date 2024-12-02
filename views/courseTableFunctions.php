@@ -1,7 +1,7 @@
 <?php
 //__DIR__ gets current directory
 require_once(__DIR__ . "/../WebServiceClient.php");
-require_once("../apiConfig.php");
+require_once(__DIR__ . "/../apiConfig.php");
 
 //get list of courses function
 function getCourses(){
