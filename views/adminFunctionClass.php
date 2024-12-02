@@ -3,6 +3,7 @@ session_start();
 
 require_once("../WebServiceClient.php");
 require_once("./studentFunctionClass.php");
+require_once("../apiConfig.php");
 
 
 class AdminFunctionClass
@@ -19,8 +20,8 @@ class AdminFunctionClass
         //die(header("location: /index.php))
         
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $apikey = "api86";
-            $apihash = "fefgwrv";
+            $apikey = API_KEY;
+            $apihash = API_HASH;
 
             // Get user input from form
             $coursename = $_POST['coursename'];
@@ -105,8 +106,8 @@ class AdminFunctionClass
     // This will display all classes 
     public function manageClassesView()
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
 
         // Set up the web service client
         $url = "https://cnmt310.classconvo.com/classreg/";
@@ -162,8 +163,8 @@ class AdminFunctionClass
     }
     public function deleteClassApiCall($course_id)
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -198,8 +199,8 @@ class AdminFunctionClass
 
     public function manageStudents()
     {
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -235,7 +236,7 @@ class AdminFunctionClass
                         print "<td>" . htmlspecialchars($pval) . "</td>";
                     }
                 }
-                print "<td><button id=\"view-course\" type=\"submit\" name=\"user_id\"" . $studentId . "\">View Courses</button></td>";
+                print "<td><button class=\"view-course\" data-student-id=\"" . $studentId . "\">View Courses</button></td>";
                 print "</tr>";
             }
             print "</table>";
@@ -247,13 +248,15 @@ class AdminFunctionClass
         print "<div class=\"modal-content\">";
         print "<span class=\"close\">&times;</span>";
         print "<h2>Students Courses</h2>";
-        $studentFunctions = new StudentFunctionClass();
-        $studentId = $_POST['user_id'] ?? null; //sets the student id to null if not set or empty
-        if ($studentId) {
-            $studentFunctions->listStudentCourses($studentId);
-        } else {
-            print "<p>No student ID provided.</p>";
-        }
+
+        print "<div id=\"modal-course-list\"></div>";
+        // $studentFunctions = new StudentFunctionClass();
+        // $studentId = $_POST['user_id'] ?? null; //sets the student id to null if not set or empty
+        // if ($studentId) {
+        //     $studentFunctions->listStudentCourses($studentId);
+        // } else {
+        //     print "<p>No student ID provided.</p>";
+        // }
 
         print "</div>";
         print "</div>";

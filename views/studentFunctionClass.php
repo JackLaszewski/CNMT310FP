@@ -2,6 +2,7 @@
 //session_start();
 
 require_once("../WebServiceClient.php");
+require_once("../apiConfig.php");
 
 class StudentFunctionClass {
 
@@ -10,8 +11,8 @@ class StudentFunctionClass {
             throw new Exception("Student ID is missing. Please log in again.");
         }
     
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
     
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -62,8 +63,8 @@ class StudentFunctionClass {
     }
     public function listStudentCourses($student_id) {
 
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
 
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
@@ -113,8 +114,8 @@ class StudentFunctionClass {
             throw new Exception("Student ID is missing. Please log in again.");
         }
     
-        $apikey = "api86";
-        $apihash = "fefgwrv";
+        $apikey = API_KEY;
+        $apihash = API_HASH;
     
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
