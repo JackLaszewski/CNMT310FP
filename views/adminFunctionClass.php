@@ -130,6 +130,12 @@ class AdminFunctionClass
         }
 
         // Print the course list in a table
+        // We want instead of directly printing we want to have a variable to print out 
+        // example
+        // $html ="";
+        // $html .= "Hello"
+        // like i have in studentFunctionsClass
+
         if ($jsonResult->result == "Success") {
             print "<h2>Manage Classes</h2>";
             print "<form method=\"POST\" action=\"adminFunctionView.php?action=delete_class\">";
