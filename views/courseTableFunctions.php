@@ -1,12 +1,13 @@
 <?php
 //__DIR__ gets current directory
 require_once(__DIR__ . "/../WebServiceClient.php");
+require_once(__DIR__ . "/../apiConfig.php");
 
 //get list of courses function
 function getCourses(){
 
-$apikey = "api86";
-$apihash = "fefgwrv";
+$apikey = API_KEY;
+$apihash = API_HASH;
 
 
 // Set up the web service client

@@ -186,7 +186,7 @@ nav a:hover {
     background-color: #138496;
 }
 
-#view-course {
+.view-course {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -195,7 +195,7 @@ nav a:hover {
     cursor: pointer;
 }
 
-#view-course:hover {
+.view-course:hover {
     background-color: #0059b8;
     transition: ease-in-out 0.5s;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -212,6 +212,10 @@ nav a:hover {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .modal.open{
+    display: block;
   }
 
   

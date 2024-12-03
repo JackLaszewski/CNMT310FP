@@ -2,6 +2,7 @@
 session_start();
 require_once("views/courseTableFunctions.php");
 require_once("views/loginFunctionsClass.php");
+
 unset($_SESSION['error_message']);//clears error message when user returns to landing page
 
 print "<!doctype html>";
