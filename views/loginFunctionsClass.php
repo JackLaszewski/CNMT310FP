@@ -1,8 +1,9 @@
 <?php
+require_once(__DIR__ . "/../apiConfig.php");
 function Login($username, $password)
 {
-    $apikey = "api86";
-    $apihash = "fefgwrv";
+    $apikey = API_KEY;
+    $apihash = API_HASH;
     // Set up the web service client
     $url = "https://cnmt310.classconvo.com/classreg/";
     $client = new WebServiceClient($url);
@@ -47,7 +48,7 @@ function Login($username, $password)
         }
     }
     if ($error === true) {
-        die(header("Location: /index.php"));
+        die(header("Location: index.php"));
     }
 
 }
