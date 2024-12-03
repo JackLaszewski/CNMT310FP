@@ -5,8 +5,8 @@ require_once(__DIR__ . "/../WebServiceClient.php");
 //get list of courses function
 function getCourses(){
 
-$apikey = "api36";
-$apihash = "kmpcpahw";
+$apikey = "api86";
+$apihash = "fefgwrv";
 
 
 // Set up the web service client

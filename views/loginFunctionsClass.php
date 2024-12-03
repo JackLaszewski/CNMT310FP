@@ -47,7 +47,7 @@ function Login($username, $password)
         }
     }
     if ($error === true) {
-        die(header("Location: /index.php"));
+        die(header("Location: index.php"));
     }
 
 }
