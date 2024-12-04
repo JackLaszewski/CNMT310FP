@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once("./studentFunctionClass.php");
-//used to call get student courses from studentFunctionClass.php and act ass middleman between modal and studentFunctionClass.php
+//used to call get student courses from studentFunctionClass.php and act as middleman between modal and studentFunctionClass.php
 
 //get student id from POST
 $data = json_decode(file_get_contents('php://input'), true);
@@ -14,7 +14,7 @@ if ($studentId) {
     $studentFunctions = new StudentFunctionClass();
     $courses = $studentFunctions->listStudentCourses($studentId);
 
-    header('Content-Type: texy/html'); // Set the content type to HTML
+    header('Content-Type: text/html'); // Set the content type to HTML
     print $courses;
 
 } else {

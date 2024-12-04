@@ -81,23 +81,14 @@ nav li a:hover {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  transition: none;
-  animation: none;
+  transition: flex-basis 1s ease-in-out;
 }
 
 .class-card.expanded {
-  animation: expand 1s ease-in-out;
+  flex-basis: 100%;
   
 }
-/* animation for expanding the class card */
-@keyframes expand {
-  from {
-    flex-basis: 60%;
-  }
-  to {
-    flex-basis: 100%;
-  }
-}
+
 .login-card {
   margin: 20px;
   width: 300px;

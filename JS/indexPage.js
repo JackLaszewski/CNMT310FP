@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //creates cookie for keeping the login card open/closed
   let showLogin = localStorage.getItem("showLogin");
+  
   if (showLogin === "false") {
     loginCard.style.display = "none";
     classCard.classList.add("expanded");
@@ -23,6 +24,4 @@ document.addEventListener("DOMContentLoaded", () => {
     loginCard.style.display = "none";
     classCard.classList.add("expanded");
   }
-
-  //make smooth transition for class card size
 });
