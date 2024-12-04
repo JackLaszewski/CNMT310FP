@@ -93,7 +93,7 @@ class StudentFunctionClass
             $courses = $jsonResult->data;
             $output = "<div class='container'>";
             $output .= "<table class='course-table'>";
-            $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th></tr>";
+            $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
             foreach ($courses as $course) {
                 //returns properites of course object
                 $props = get_object_vars($course);
@@ -104,7 +104,11 @@ class StudentFunctionClass
                         $output .= "<td>" . htmlspecialchars($value) . "</td>";
                     }
                 }
-                $output .= "<td><button type='submit' value='" . $student_id . "," . $course_id . "'>Drop Course</button></td>";
+                $output .= "<td>
+                            <form method='POST' action=''>
+                                <button type='submit' name='drop_course' value='" . $student_id . "," . $course_id . "'>Drop Course</button>
+                            </form>
+                            </td>";
                 $output .= "</tr>";
             }
             $output .= "</table>";
@@ -165,7 +169,7 @@ class StudentFunctionClass
         $url = "https://cnmt310.classconvo.com/classreg/";
         $client = new WebServiceClient($url);
 
-        $action = "removestudentfromcourse";
+        $action = "delstudentfromcourse";
         $wsData = array(
             "apikey" => $apikey,
             "apihash" => $apihash,

@@ -1,6 +1,7 @@
 <?php
 
 require_once("adminFunctionClass.php");
+require_once("studentFunctionClass.php");
 
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: ../Errors/403.php");
@@ -14,6 +15,14 @@ $action = isset($_GET['action']) ? $_GET['action'] : null;
 //we dont want request method 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     $action = 'delete_class';
+}
+
+//looked up a way to not use $_SERVER
+if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['drop_course'])) {
+    $ids = explode(",", $_POST['drop_course']);
+    $student_id = $ids[0];
+    $course_id = $ids[1];
+    $action = 'drop_class';
 }
 
 print "<!DOCTYPE html>";
@@ -30,6 +39,7 @@ print "<h1>Admin Functions</h1>";
 print "<div class=\"admin-content\">";
 
 $adminFunctions = new AdminFunctionClass();
+$studentFunctions = new StudentFunctionClass();
 //Switch case depending on what they choose in the admin dashboard
 switch ($action) {
     case 'add_class':
@@ -47,6 +57,14 @@ switch ($action) {
         break;
     case 'manage_students':
         $adminFunctions->manageStudents();
+        break;
+    case 'drop_class':
+        if (isset($course_id) && isset($student_id)) {
+            print "Student ID: $student_id, Course ID: $course_id";
+            $studentFunctions->removeStudentFromCourse($student_id, $course_id);
+        } else {
+            print "<p>No course ID or student ID provided for dropping class.</p>";
+        }
         break;
     default:
         print "<p>Please select an action from the dashboard.</p>";
