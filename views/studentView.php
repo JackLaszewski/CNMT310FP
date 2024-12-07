@@ -43,7 +43,7 @@ print "<head>";
 print "<meta charset=\"UTF-8\">";
 print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 print "<title>Student View</title>";
-print "<link rel=\"stylesheet\" href=\"../CSS/style.css\">";
+print "<link rel=\"stylesheet\" href=\"../CSS/student.css\">"; // Make sure this file is updated
 print "</head>";
 print "<body>";
 print "<div class=\"container\">";
@@ -56,11 +56,16 @@ if ($success_message) {
     print "<p class='success-message'>" . htmlspecialchars($success_message) . "</p>";
 }
 
-print "<h2>Enrolled Courses</h2>";
-print $enrolledCoursesHTML;
-
+print "<div class=\"flex-container\">";
+print "<div class=\"flex-item\">";
 print "<h2>Available Courses</h2>";
 print $availableCoursesHTML;
+print "</div>";
+print "<div class=\"flex-item\">";
+print "<h2>Enrolled Courses</h2>";
+print $enrolledCoursesHTML;
+print "</div>";
+print "</div>";
 
 print "<p><a href=\"../index.php\">Return to Main Page</a></p>";
 print "</div>";
