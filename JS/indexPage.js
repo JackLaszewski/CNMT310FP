@@ -1,27 +1,27 @@
 "use strict";
+
 document.addEventListener("DOMContentLoaded", () => {
-  // get login button and class card
-  const loginCard = document.querySelector(".login-card");
-  const classCard = document.querySelector(".class-card");
-  const logoutButton = document.querySelector("#logout-button");
+    const loginCard = document.querySelector(".login-card");
+    const classCard = document.querySelector(".class-card");
+    const logoutButton = document.querySelector("#logout-button");
 
-  //creates cookie for keeping the login card open/closed
-  let showLogin = localStorage.getItem("showLogin");
-  
-  if (showLogin === "false") {
-    loginCard.style.display = "none";
-    classCard.classList.add("expanded");
-  } else {
-    loginCard.style.display = "block";
-    classCard.classList.remove("expanded");
-  }
+    // Handle login card visibility based on localStorage
+    const showLogin = localStorage.getItem("showLogin");
 
-  //check if logout button exists
-  if (logoutButton === null) {
-    loginCard.style.display = "block";
-    classCard.classList.remove("expanded");
-  } else {
-    loginCard.style.display = "none";
-    classCard.classList.add("expanded");
-  }
+    if (showLogin === "false") {
+        loginCard.style.display = "none";
+        classCard.classList.add("expanded");
+    } else {
+        loginCard.style.display = "block";
+        classCard.classList.remove("expanded");
+    }
+
+    // Check if the user is logged in
+    if (logoutButton === null) {
+        loginCard.style.display = "block";
+        classCard.classList.remove("expanded");
+    } else {
+        loginCard.style.display = "none";
+        classCard.classList.add("expanded");
+    }
 });

@@ -36,7 +36,7 @@ class StudentFunctionClass
 
         if ($jsonResult->result == "Success") {
             $courses = $jsonResult->data;
-            $output = "<div class='container'>";
+            $output = "<div class='table-container'>"; /* Renamed container for tables */
             $output .= "<table class='course-table'>";
             $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
             foreach ($courses as $course) {
@@ -91,9 +91,9 @@ class StudentFunctionClass
 
         if ($jsonResult->result == "Success") {
             $courses = $jsonResult->data;
-            $output = "<div class='container'>";
+            $output = "<div class='table-container'>"; /* Renamed container for tables */
             $output .= "<table class='course-table'>";
-            $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
+            $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th></tr>";
             foreach ($courses as $course) {
                 //returns properites of course object
                 $props = get_object_vars($course);
@@ -104,11 +104,6 @@ class StudentFunctionClass
                         $output .= "<td>" . htmlspecialchars($value) . "</td>";
                     }
                 }
-                $output .= "<td>
-                            <form method='POST' action=''>
-                                <button type='submit' name='drop_course' value='" . $student_id . "," . $course_id . "'>Drop Course</button>
-                            </form>
-                            </td>";
                 $output .= "</tr>";
             }
             $output .= "</table>";

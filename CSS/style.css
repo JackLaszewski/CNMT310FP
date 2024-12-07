@@ -1,3 +1,12 @@
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Header */
 header {
   background-color: #333;
   padding: 30px;
@@ -8,7 +17,7 @@ header h1 {
   color: #fff;
 }
 
-/* nav bar styling */
+/* Navigation Bar */
 nav ul {
   list-style-type: none;
   margin: 0;
@@ -34,16 +43,59 @@ nav li a:hover {
   background-color: #535252;
 }
 
-/* course table styling */
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Class Card */
+.class-card {
+  flex-grow: 1;
+  flex-basis: 60%;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: flex-basis 0.3s ease-in-out;
+}
+
+.class-card.expanded {
+  flex-basis: 100%;
+}
+
+/* Login Card */
+.login-card {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.login-card h2 {
+  margin-top: 0;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Table Styling */
 .course-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto;
+  margin: 10px 0;
 }
 
 .course-table th,
 .course-table td {
-  padding: 12px;
+  padding: 10px;
   border: 1px solid #ddd;
   text-align: left;
 }
@@ -62,67 +114,3 @@ nav li a:hover {
 .course-table tr:hover {
   background-color: #f1f1f1;
 }
-
-/* card styling */
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  overflow-x: auto;
-  padding: 35px;
-}
-
-.class-card {
-  margin: 20px;
-  flex-grow: 1;
-  flex-basis: 60%;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  transition: flex-basis 1s ease-in-out;
-}
-
-.class-card.expanded {
-  flex-basis: 100%;
-  
-}
-
-.login-card {
-  margin: 20px;
-  width: 300px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-}
-
-.card h3 {
-  margin-top: 0;
-}
-
-/* card styling pertaining to the table */
-
-.card-container .course-table {
-  width: 100% !important;
-  max-width: 100% !important;
-  table-layout: fixed;
-}
-
-.card-container .course-table th,
-.card-container .course-table td {
-  padding: 6px !important;
-  font-size: 14px !important;
-  word-break: break-all;
-}
-
-.card-container .course-table th {
-  background-color: #007bff;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-
-
