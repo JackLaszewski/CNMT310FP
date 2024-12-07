@@ -49,7 +49,7 @@ class StudentFunctionClass
                     }
                 }
                 $output .= "<td>
-                            <form method='POST' action='studentAdd.php'>
+                            <form method='POST' action='studentView.php'>
                                 <input type='hidden' name='course_id' value='" . htmlspecialchars($course_id) . "'>
                                 <button type='submit'>Add to Course</button>
                             </form>
@@ -195,78 +195,7 @@ class StudentFunctionClass
             throw new Exception("Failed to remove from the course: " . $errorMessage);
         }
     }
-
-
-    public function arrayOfCourses($student_id)
-    {
-
-        $apikey = "api86";
-        $apihash = "fefgwrv";
-
-        $url = "https://cnmt310.classconvo.com/classreg/";
-        $client = new WebServiceClient($url);
-
-        $action = "getstudentcourses";
-        $wsData = array(
-            "apikey" => $apikey,
-            "apihash" => $apihash,
-            "action" => $action,
-            "data" => array(
-                "student_id" => $student_id
-            )
-        );
-        $client->setPostFields($wsData);
-        $result = $client->send();
-        $jsonResult = json_decode($result);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Result is not JSON");
-        }
-
-        if ($jsonResult->result == "Success") {
-            $courses = $jsonResult->data;
-
-            return $courses;
-        } else {
-            throw new Exception("Failed to retrieve student courses: " . $jsonResult->result);
-        }
-    }
-    public function listCoursesWithCourseObject($courseObj)
-    {
-        if (!is_array($courseObj)) {
-            $props = get_object_vars($courseObj);
-            foreach ($props as $key => $value) {
-                if ($key != "id" && $key != "owner_id" && $key != "student_id" && $key != "course_id") { // Skip unnecessary properties
-                    $output .= "<td>" . htmlspecialchars($value) . "</td>";
-                }
-            }
-        } else {
-            $output = "<div class='container'>";
-            $output .= "<table class='course-table'>";
-            $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th></tr>";
-            foreach ($courseObj as $course) {
-                //returns properites of course object
-                $props = get_object_vars($course);
-                $output .= "<tr>";
-                foreach ($props as $key => $value) {
-                    if ($key != "id" && $key != "owner_id" && $key != "student_id" && $key != "course_id") { // Skip unnecessary properties
-                        $output .= "<td>" . htmlspecialchars($value) . "</td>";
-                    }
-                }
-                $output .= "</tr>";
-            }
-            $output .= "</table>";
-            $output .= "</div>";
-            return $output;
-        }
-    }
 }
 
 
 ?>
-//So what you could do is create a method that gives you an array of all courses instead of printing
-//This method would be used to give a similar feel to uwsps add coruses. With adding courses on the left and shopping
-cart on the right.
-//Becuase what I could do is store all the courses Id in an array because if they add multiple courses
-//Then when they are done they could hit registar shopping car and it would go through and reister each course one by
-on.
