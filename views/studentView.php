@@ -20,13 +20,27 @@ $studentFunctions = new StudentFunctionClass();
 $error_message = "";
 $success_message = "";
 
-// Handle adding a course
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
+// Define the required fields
+$required = array("course_id");
+
+// Validate the POST data
+foreach ($required as $req) {
+    if (!isset($_POST[$req]) || empty($_POST[$req])) {
+        $_SESSION['errors'][] = "Please select a course.";
+        header("Location: studentView.php"); // Redirect back with errors
+        exit();
+    }
+}
+
+// Process the form submission if validation passes
+if (isset($_POST['course_id'])) {
     $course_id = $_POST['course_id'];
     try {
         $success_message = $studentFunctions->addStudentToCourse($student_id, $course_id);
     } catch (Exception $e) {
-        $error_message = $e->getMessage();
+        $_SESSION['errors'][] = $e->getMessage();
+        header("Location: studentView.php"); // Redirect back with errors
+        exit();
     }
 }
 
@@ -49,10 +63,14 @@ print $page->getTopSection();
 print "<div class=\"container\">";
 print "<h1>Student View</h1>";
 
-if ($error_message) {
-    print "<p class='error-message'>" . htmlspecialchars($error_message) . "</p>";
+if (!empty($_SESSION['errors'])) {
+    foreach ($_SESSION['errors'] as $error) {
+        print "<p class='error-message'>" . htmlspecialchars($error) . "</p>";
+    }
+    unset($_SESSION['errors']); // Clear errors after displaying
 }
-if ($success_message) {
+
+if (!empty($success_message)) {
     print "<p class='success-message'>" . htmlspecialchars($success_message) . "</p>";
 }
 

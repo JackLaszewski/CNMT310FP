@@ -48,12 +48,12 @@ class StudentFunctionClass
                         $output .= "<td>" . htmlspecialchars($value) . "</td>";
                     }
                 }
-                $output .= "<td>
-                            <form method='POST' action='studentView.php'>
-                                <input type='hidden' name='course_id' value='" . htmlspecialchars($course_id) . "'>
-                                <button type='submit'>Add to Course</button>
-                            </form>
-                            </td>";
+                $output .= "<td>";
+                $output .= "<form method='POST' action='studentView.php'>";
+                $output .= "<input type='hidden' name='course_id' value='" . htmlspecialchars($course_id) . "'>";
+                $output .= "<button type='submit'>Add to Course</button>";
+                $output .= "</form>";
+                $output .= "</td>";
                 $output .= "</tr>";
             }
             $output .= "</table>";

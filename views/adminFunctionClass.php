@@ -11,258 +11,275 @@ class AdminFunctionClass
 
     public function addClassApiCall()
     {
-        //We want to get rid of Request_Method and use $_Post for security reasons 
-        //$exoected = array("coursename", "coursecode","coursenum","courseinstructor", ect.)
-
-        //foreach )$expected as $value)
-        //if(!isset($_POST($value)|| empty($_POST($vlaue))))
-        //$_SESSION('errors')[] = "Please cmoplete all fields
-        //die(header("location: /index.php))
-        
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $apikey = API_KEY;
-            $apihash = API_HASH;
-
-            // Get user input from form
-            $coursename = $_POST['coursename'];
-            $coursecode = $_POST['coursecode'];
-            $coursenum = $_POST['coursenum'];
-            $coursecredits = $_POST['coursecredits'];
-            $coursedesc = $_POST['coursedesc'];
-            $courseinstr = $_POST['courseinstr'];
-            $meetingtimes = $_POST['meetingtimes'];
-            $maxenroll = $_POST['maxenroll'];
-
-            $url = "https://cnmt310.classconvo.com/classreg/";
-            $client = new WebServiceClient($url);
-
-            $action = "addcourse";
-            $data = array(
-                "coursename" => $coursename,
-                "coursecode" => $coursecode,
-                "coursenum" => $coursenum,
-                "coursecredits" => $coursecredits,
-                "coursedesc" => $coursedesc,
-                "courseinstr" => $courseinstr,
-                "meetingtimes" => $meetingtimes,
-                "maxenroll" => $maxenroll
-            );
-            $fields = array(
-                "apikey" => $apikey,
-                "apihash" => $apihash,
-                "action" => $action,
-                "data" => $data
-            );
-
-            $client->setPostFields($fields);
-            $result = $client->send();
-
-            $jsonResult = json_decode($result);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                print "Result is not JSON";
-                exit;
-            }
-
-            // Handle Result of adding a class
-            if ($jsonResult->result == "Success") {
-                $course_id = $jsonResult->data->course_id;
-                print "<h1>Course Added Successfully</h1>";
-                print "<p>Course ID: " . htmlspecialchars($course_id) . "</p>";
-            } else {
-                $error_message = "Error adding the course!";
-                print "<p class='error-message'>" . htmlspecialchars($error_message) . "</p>";
+        $output = ""; // Initialize output variable
+    
+        // Define the expected fields and their error messages
+        $expected = array(
+            "coursename" => "Please provide the course name.",
+            "coursecode" => "Please provide the course code.",
+            "coursenum" => "Please provide the course number.",
+            "coursecredits" => "Please provide the number of credits.",
+            "coursedesc" => "Please provide the course description.",
+            "courseinstr" => "Please provide the course instructor.",
+            "meetingtimes" => "Please provide the meeting times.",
+            "maxenroll" => "Please provide the maximum enrollment."
+        );
+    
+        $error = false;
+        $_SESSION['errors'] = []; // Initialize error message storage
+    
+        // Validate required fields
+        foreach ($expected as $key => $message) {
+            if (!isset($_POST[$key]) || empty($_POST[$key])) {
+                $_SESSION['errors'][] = $message;
+                $error = true;
             }
         }
+    
+        // If errors exist, redirect back with error messages
+        if ($error === true) {
+            header("Location: adminFunctionView.php?action=add_class");
+            exit();
+        }
+    
+        $apikey = API_KEY;
+        $apihash = API_HASH;
+    
+        // Collect the user input from $_POST
+        $data = array(
+            "coursename" => $_POST['coursename'],
+            "coursecode" => $_POST['coursecode'],
+            "coursenum" => $_POST['coursenum'],
+            "coursecredits" => $_POST['coursecredits'],
+            "coursedesc" => $_POST['coursedesc'],
+            "courseinstr" => $_POST['courseinstr'],
+            "meetingtimes" => $_POST['meetingtimes'],
+            "maxenroll" => $_POST['maxenroll']
+        );
+    
+        $url = "https://cnmt310.classconvo.com/classreg/";
+        $client = new WebServiceClient($url);
+    
+        $action = "addcourse";
+        $fields = array(
+            "apikey" => $apikey,
+            "apihash" => $apihash,
+            "action" => $action,
+            "data" => $data
+        );
+    
+        $client->setPostFields($fields);
+        $result = $client->send();
+    
+        $jsonResult = json_decode($result);
+    
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $_SESSION['errors'][] = "Invalid response from the server.";
+            header("Location: adminFunctionView.php?action=add_class");
+            exit();
+        }
+    
+        // Handle the result of adding a course
+        if ($jsonResult->result === "Success") {
+            $course_id = $jsonResult->data->course_id;
+            $output .= "<h1>Course Added Successfully</h1>";
+            $output .= "<p>Course ID: " . htmlspecialchars($course_id) . "</p>";
+        } else {
+            $_SESSION['errors'][] = "Error adding the course: " . htmlspecialchars($jsonResult->message ?? "Unknown error.");
+            header("Location: adminFunctionView.php?action=add_class");
+            exit();
+        }
+    
+        return $output;
     }
 
     public function addClassTemplateView()
-    {
-        print "<form method=\"POST\" action=\"adminFunctionView.php?action=add_class\">";
-        print "<label for=\"coursename\">Course name:</label>";
-        print "<input type=\"text\" id=\"coursename\" name=\"coursename\" required><br>";
-        print "<label for=\"coursecode\">Course Code:</label>";
-        print "<input type=\"text\" id=\"coursecode\" name=\"coursecode\" required><br>";
-        print "<label for=\"coursenum\">Course Number:</label>";
-        print "<input type=\"text\" id=\"coursenum\" name=\"coursenum\" required><br>";
-        print "<label for=\"coursecredits\">Number of Credits:</label>";
-        print "<input type=\"text\" id=\"coursecredits\" name=\"coursecredits\" required><br>";
-        print "<label for=\"coursedesc\">Course Description:</label>";
-        print "<input type=\"text\" id=\"coursedesc\" name=\"coursedesc\" required><br>";
-        print "<label for=\"courseinstr\">Course Instructor:</label>";
-        print "<input type=\"text\" id=\"courseinstr\" name=\"courseinstr\" required><br>";
-        print "<label for=\"meetingtimes\">Meeting Times:</label>";
-        print "<input type=\"text\" id=\"meetingtimes\" name=\"meetingtimes\" required><br>";
-        print "<label for=\"maxenroll\">Max Enroll:</label>";
-        print "<input type=\"text\" id=\"maxenroll\" name=\"maxenroll\" required><br>";
-        print "<button type=\"submit\">Add Class</button>";
-        print "</form>";
+{
+    $output = ""; // Initialize output variable
 
-        print "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
+    $output .= "<form method=\"POST\" action=\"adminFunctionView.php?action=add_class\">";
+    $output .= "<label for=\"coursename\">Course name:</label>";
+    $output .= "<input type=\"text\" id=\"coursename\" name=\"coursename\" required><br>";
+    $output .= "<label for=\"coursecode\">Course Code:</label>";
+    $output .= "<input type=\"text\" id=\"coursecode\" name=\"coursecode\" required><br>";
+    $output .= "<label for=\"coursenum\">Course Number:</label>";
+    $output .= "<input type=\"text\" id=\"coursenum\" name=\"coursenum\" required><br>";
+    $output .= "<label for=\"coursecredits\">Number of Credits:</label>";
+    $output .= "<input type=\"text\" id=\"coursecredits\" name=\"coursecredits\" required><br>";
+    $output .= "<label for=\"coursedesc\">Course Description:</label>";
+    $output .= "<input type=\"text\" id=\"coursedesc\" name=\"coursedesc\" required><br>";
+    $output .= "<label for=\"courseinstr\">Course Instructor:</label>";
+    $output .= "<input type=\"text\" id=\"courseinstr\" name=\"courseinstr\" required><br>";
+    $output .= "<label for=\"meetingtimes\">Meeting Times:</label>";
+    $output .= "<input type=\"text\" id=\"meetingtimes\" name=\"meetingtimes\" required><br>";
+    $output .= "<label for=\"maxenroll\">Max Enroll:</label>";
+    $output .= "<input type=\"text\" id=\"maxenroll\" name=\"maxenroll\" required><br>";
+    $output .= "<button type=\"submit\">Add Class</button>";
+    $output .= "</form>";
 
-        // After form submission, call the API method
-        $this->addClassApiCall();
-    }
+    $output .= "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
+
+    return $output; // Return the output for rendering
+}
 
     // This will display all classes 
     public function manageClassesView()
-    {
-        $apikey = API_KEY;
-        $apihash = API_HASH;
+{
+    $output = ""; // Initialize output variable
 
-        // Set up the web service client
-        $url = "https://cnmt310.classconvo.com/classreg/";
-        $client = new WebServiceClient($url);
+    $apikey = API_KEY;
+    $apihash = API_HASH;
 
-        $action = "listcourses";
-        $wsData = array(
-            "apikey" => $apikey,
-            "apihash" => $apihash,
-            "action" => $action,
-            "data" => array()
-        );
-        $client->setPostFields($wsData);
+    $url = "https://cnmt310.classconvo.com/classreg/";
+    $client = new WebServiceClient($url);
 
-        $result = $client->send();
-        $jsonResult = json_decode($result);
+    $action = "listcourses";
+    $wsData = array(
+        "apikey" => $apikey,
+        "apihash" => $apihash,
+        "action" => $action,
+        "data" => array()
+    );
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            print "Result is not JSON";
-            exit;
-        }
+    $client->setPostFields($wsData);
+    $result = $client->send();
+    $jsonResult = json_decode($result);
 
-        // Print the course list in a table
-        // We want instead of directly printing we want to have a variable to print out 
-        // example
-        // $html ="";
-        // $html .= "Hello"
-        // like i have in studentFunctionsClass
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return "Result is not JSON";
+    }
 
-        if ($jsonResult->result == "Success") {
-            print "<h2>Manage Classes</h2>";
-            print "<form method=\"POST\" action=\"adminFunctionView.php?action=delete_class\">";
-            print "<table class='course-table'>";
-            print "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
+    if ($jsonResult->result == "Success") {
+        $output .= "<h2>Manage Classes</h2>";
+        $output .= "<form method=\"POST\" action=\"adminFunctionView.php?action=delete_class\">";
+        $output .= "<table class='course-table'>";
+        $output .= "<tr><th>Course Name</th><th>Course Code</th><th>Course Number</th><th>Number of Credits</th><th>Course Description</th><th>Course Instructor</th><th>Meeting Times</th><th>Max Enrollment</th><th>Action</th></tr>";
 
-            foreach ($jsonResult->data as $key => $value) {
-                $props = get_object_vars($jsonResult->data[$key]);
-                $course_id = $jsonResult->data[$key]->id;
-                print "<tr>";
-                foreach ($props as $pkey => $pval) {
-                    if ($pkey != "id" && $pkey != "owner_id") {
-                        print "<td>" . htmlspecialchars($pval) . "</td>";
-                    }
+        foreach ($jsonResult->data as $key => $value) {
+            $props = get_object_vars($jsonResult->data[$key]);
+            $course_id = $jsonResult->data[$key]->id;
+            $output .= "<tr>";
+            foreach ($props as $pkey => $pval) {
+                if ($pkey != "id" && $pkey != "owner_id") {
+                    $output .= "<td>" . htmlspecialchars($pval) . "</td>";
                 }
-                //Here we set the value of course id so deleting it, is super easy
-                print "<td><button type=\"submit\" name=\"course_id\" value=\"$course_id\">Delete</button></td>";
-                print "</tr>";
             }
-            print "</table>";
-            print "</form>";
-        } else {
-            print "Failed to retrieve courses";
+            $output .= "<td><button type=\"submit\" name=\"course_id\" value=\"$course_id\">Delete</button></td>";
+            $output .= "</tr>";
         }
-
-        print "<br>";
-        print "<a href=\"../index.php\">Return to Main Page</a>";
-        print "<br>";
-        print "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
-    }
-    public function deleteClassApiCall($course_id)
-    {
-        $apikey = API_KEY;
-        $apihash = API_HASH;
-
-        $url = "https://cnmt310.classconvo.com/classreg/";
-        $client = new WebServiceClient($url);
-
-        $action = "deletecourse";
-        $wsData = array(
-            "apikey" => $apikey,
-            "apihash" => $apihash,
-            "action" => $action,
-            "data" => array(
-                "course_id" => $course_id
-            )
-        );
-        $client->setPostFields($wsData);
-
-        $result = $client->send();
-        $jsonResult = json_decode($result);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            print "Result is not JSON";
-            exit;
-        }
-
-        // Handle result of deleting a class
-        if ($jsonResult->result == "Success") {
-            print "<p>Course deleted successfully. Number of courses deleted: " . $jsonResult->data->course_deleted . "</p>";
-            print "<p>Number of student enrollments deleted: " . $jsonResult->data->studentenrollmentsdeleted . "</p>";
-        } else {
-            print "<p>Failed to delete the course. Error: " . $jsonResult->result . "</p>";
-        }
+        $output .= "</table>";
+        $output .= "</form>";
+    } else {
+        $output .= "<p>Failed to retrieve courses</p>";
     }
 
-    public function manageStudents()
-    {
-        $apikey = API_KEY;
-        $apihash = API_HASH;
+    $output .= "<br>";
+    $output .= "<a href=\"../index.php\">Return to Main Page</a><br>";
+    $output .= "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
 
-        $url = "https://cnmt310.classconvo.com/classreg/";
-        $client = new WebServiceClient($url);
+    return $output;
+}
+public function deleteClassApiCall($course_id)
+{
+    $output = ""; // Initialize output variable
 
-        $action = "liststudents";
-        $wsData = array(
-            "apikey" => $apikey,
-            "apihash" => $apihash,
-            "action" => $action,
-            "data" => array()
-        );
-        $client->setPostFields($wsData);
+    $apikey = API_KEY;
+    $apihash = API_HASH;
 
-        $result = $client->send();
-        $jsonResult = json_decode($result);
+    $url = "https://cnmt310.classconvo.com/classreg/";
+    $client = new WebServiceClient($url);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            print "Result is not JSON";
-            exit;
-        }
+    $action = "deletecourse";
+    $wsData = array(
+        "apikey" => $apikey,
+        "apihash" => $apihash,
+        "action" => $action,
+        "data" => array(
+            "course_id" => $course_id
+        )
+    );
 
-        if ($jsonResult->result == "Success") {
-            print "<h2>Manage Students</h2>";
-            print "<table class='student-table'>";
-            print "<tr><th>Student ID</th><th>Student Username</th><th>Student Name</th><th>Student Email</th><th>View Student Courses</th></tr>";
+    $client->setPostFields($wsData);
+    $result = $client->send();
+    $jsonResult = json_decode($result);
 
-            foreach ($jsonResult->data as $key => $value) {
-                $props = get_object_vars($jsonResult->data[$key]);
-                $studentId = $jsonResult->data[$key]->id;
-                print "<tr>";
-                foreach ($props as $pkey => $pval) {
-                    if ($pkey != "user_role") {
-                        print "<td>" . htmlspecialchars($pval) . "</td>";
-                    }
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return "Result is not JSON";
+    }
+
+    if ($jsonResult->result === "Success") {
+        $output .= "<p>Course deleted successfully. Number of courses deleted: " . htmlspecialchars($jsonResult->data->course_deleted) . "</p>";
+        $output .= "<p>Number of student enrollments deleted: " . htmlspecialchars($jsonResult->data->studentenrollmentsdeleted) . "</p>";
+    } else {
+        $output .= "<p>Failed to delete the course. Error: " . htmlspecialchars($jsonResult->result) . "</p>";
+    }
+
+    return $output;
+}
+
+public function manageStudents()
+{
+    $output = ""; // Initialize output variable
+
+    $apikey = API_KEY;
+    $apihash = API_HASH;
+
+    $url = "https://cnmt310.classconvo.com/classreg/";
+    $client = new WebServiceClient($url);
+
+    $action = "liststudents";
+    $wsData = array(
+        "apikey" => $apikey,
+        "apihash" => $apihash,
+        "action" => $action,
+        "data" => array()
+    );
+    $client->setPostFields($wsData);
+
+    $result = $client->send();
+    $jsonResult = json_decode($result);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return "Result is not JSON"; // Return error as a string
+    }
+
+    if ($jsonResult->result == "Success") {
+        $output .= "<h2>Manage Students</h2>";
+        $output .= "<table class='student-table'>";
+        $output .= "<tr><th>Student ID</th><th>Student Username</th><th>Student Name</th><th>Student Email</th><th>View Student Courses</th></tr>";
+
+        foreach ($jsonResult->data as $key => $value) {
+            $props = get_object_vars($jsonResult->data[$key]);
+            $studentId = $jsonResult->data[$key]->id;
+            $output .= "<tr>";
+            foreach ($props as $pkey => $pval) {
+                if ($pkey != "user_role") {
+                    $output .= "<td>" . htmlspecialchars($pval) . "</td>";
                 }
-                print "<td><button class=\"view-course\" data-student-id=\"" . $studentId . "\">View Courses</button></td>";
-                print "</tr>";
             }
-            print "</table>";
-        } else {
-            print "Failed to retrieve students";
+            $output .= "<td><button class=\"view-course\" data-student-id=\"" . $studentId . "\">View Courses</button></td>";
+            $output .= "</tr>";
         }
-        //modal popup
-        print "<div id=\"modal\" class=\"modal\">";
-        print "<div class=\"modal-content\">";
-        print "<span class=\"close\">&times;</span>";
-        print "<h2>Students Courses</h2>";
-        print "<div id=\"modal-course-list\"></div>";
-        print "</div>";
-        print "</div>";
-
-        print "<br>";
-        print "<a href=\"../index.php\">Return to Main Page</a>";
-        print "<br>";
-        print "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
-
+        $output .= "</table>";
+    } else {
+        $output .= "<p>Failed to retrieve students</p>";
     }
+
+    // Add modal popup for viewing courses
+    $output .= "<div id=\"modal\" class=\"modal\">";
+    $output .= "<div class=\"modal-content\">";
+    $output .= "<span class=\"close\">&times;</span>";
+    $output .= "<h2>Students Courses</h2>";
+    $output .= "<div id=\"modal-course-list\"></div>";
+    $output .= "</div>";
+    $output .= "</div>";
+
+    $output .= "<br>";
+    $output .= "<a href=\"../index.php\">Return to Main Page</a>";
+    $output .= "<br>";
+    $output .= "<a href=\"adminDashboard.php\">Admin Dashboard</a>";
+
+    return $output; // Return the generated output
+}
 }
 ?>
