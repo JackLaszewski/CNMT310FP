@@ -269,8 +269,12 @@ public function manageStudents()
     $output .= "<div id=\"modal\" class=\"modal\">";
     $output .= "<div class=\"modal-content\">";
     $output .= "<span class=\"close\">&times;</span>";
-    $output .= "<h2>Students Courses</h2>";
-    $output .= "<div id=\"modal-course-list\"></div>";
+    $output .= "<h2>Student Courses</h2>";
+    $output .= "<div class=\"flex-container\">";
+    $output .= "<div class=\"flex-item\" id=\"modal-student-course-list\"></div>";
+    $output .= "<h2>Available Courses</h2>";
+    $output .= "<div class=\"flex-item\" id=\"modal-available-course-list\"></div>";
+    $output .= "</div>";
     $output .= "</div>";
     $output .= "</div>";
 

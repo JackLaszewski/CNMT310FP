@@ -33,18 +33,19 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch('ModalStudentCourses.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/html',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ student_id: studentId }) // Send student ID to PHP
         })
-            .then(response => response.text()) // Expect HTML response instead of JSON
+            .then(response => response.json()) // Expect HTML response instead of JSON
             .then(data => {
                 if (data) {
                     // Insert the HTML content (table of courses) into the modal
-                    document.getElementById('modal-course-list').innerHTML = data;
+                    document.getElementById('modal-student-course-list').innerHTML = data.courses;
+                    document.getElementById('modal-available-course-list').innerHTML = data.availableCourses;
                 } else {
-                    document.getElementById('modal-course-list').innerHTML = "<p>No courses found.</p>";
-                }
+                    document.getElementById('modal-student-course-list').innerHTML = "<p>No courses found.</p>";
+                } 
             })
             .catch(error => console.error('Error fetching courses:', error));
     }

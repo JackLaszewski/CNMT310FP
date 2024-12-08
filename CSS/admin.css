@@ -215,7 +215,9 @@ nav a:hover {
   }
 
   .modal.open{
-    display: block;
+    display: flex;
+    flex-direction: column;
+
   }
 
   
@@ -225,13 +227,17 @@ nav a:hover {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    display: flex;
+    flex-direction: column;
+   
   }
-  
+
   .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    align-self: flex-end;
   }
   
   .close:hover,
@@ -240,4 +246,33 @@ nav a:hover {
     text-decoration: none;
     cursor: pointer;
   }
+
+/* Flex container styles */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   
+  /* Flex item styles */
+  .flex-item {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+  }
+  
+  /* Modal student course list styles */
+  #modal-student-course-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Modal available course list styles */
+  #modal-available-course-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }

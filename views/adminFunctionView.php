@@ -12,7 +12,6 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
 
-
 // Do we need this???
 if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['course_id'])) {
     $action = 'delete_class';
@@ -23,6 +22,10 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['dro
     $student_id = $ids[0];
     $course_id = $ids[1];
     $action = 'drop_class';
+}
+
+if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['add_student_course']) && isset($_SESSION['admin_student_id'])) {
+    $action = 'add_student_course';
 }
 
 print "<!DOCTYPE html>";
@@ -59,6 +62,13 @@ switch ($action) {
         break;
     case 'manage_students':
         $output = $adminFunctions->manageStudents();
+        break;
+    case 'add_student_course':
+        if (isset($_POST['add_student_course'])) {
+            $output = $studentFunctions->addStudentToCourse( $_SESSION['admin_student_id'],$_POST['add_student_course']);
+        } else {
+            $output = "<p>No student or course ID provided for addition.</p>";
+        }
         break;
     default:
         $output = "<p>Please select an action from the dashboard.</p>";
