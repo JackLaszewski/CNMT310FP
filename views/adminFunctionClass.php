@@ -88,8 +88,8 @@ class AdminFunctionClass
     }
 }
 
-    public function addClassTemplateView()
-    {
+public function addClassTemplateView()
+{
     $output = ""; // Initialize output variable
 
     $output .= "<form id=\"add-class-form\" method=\"POST\">";
