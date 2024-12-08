@@ -54,3 +54,26 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("open");
     }
 });
+
+document.getElementById('submit-add-class').addEventListener('click', function() {
+    const form = document.getElementById('add-class-form');
+    const formData = new FormData(form);
+
+    fetch('adminFunctionView.php?action=add_class', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' // Identifies the request as AJAX
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.result === 'Success') {
+            alert('Course added successfully! Course ID: ' + data.data.course_id);
+            form.reset(); // Clear the form
+        } else {
+            alert('Error adding course: ' + (data.message || 'Unknown error.'));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});

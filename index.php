@@ -2,8 +2,16 @@
 session_start();
 require_once("views/courseTableFunctions.php");
 require_once("views/loginFunctionsClass.php");
+require_once("page.php");
 unset($_SESSION['error_message']);//clears error message when user returns to landing page
 
+
+$page = new MyNamespace\Page("Index Page");
+$page->addHeadElement("<link rel=\"stylesheet\" href=\"CSS/style.css\">");
+$page->addHeadElement("<script src=\"JS/indexPage.js\"></script>");
+
+// Output Top Section
+print $page->getTopSection();
 print "<!doctype html>";
 print "<html lang=\"en\">";
 print "<head>";
@@ -46,13 +54,19 @@ $courses = getCourses();
 displayCourses($courses);
 print "</div>";
 
-// Check if the form has been submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {//dont do this
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    Login($username,$password);
-}
+// Required fields for validation
+$required = array(
+    "username",
+    "password"
+  );
 
+foreach ($required as $req) {
+if (!isset($_POST[$req]) || empty(trim($_POST[$req]))) {
+        print "Please provide both username and password.<br>";
+        print "</body></html>";
+        exit;
+}
+}
 print "<div class=\"login-card\">";
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";
@@ -68,10 +82,9 @@ print "<button id=\"login-button\" type=\"submit\">Login</button>";
 print "</form>";
 print "</div>";
 
-
 print "</div>";
 print "</div>";
 
+print $page->getBottomSection();
 
-print "</body>";
-print "</html>";
+?>

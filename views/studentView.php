@@ -56,7 +56,7 @@ try {
 $page = new MyNamespace\Page("Student View");
 $page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/student.css\">");
 
-// Output Top Section
+// Output Top Section.0
 print $page->getTopSection();
 
 // Output Body Content

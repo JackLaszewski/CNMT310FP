@@ -9,95 +9,90 @@ require_once("../apiConfig.php");
 class AdminFunctionClass
 {
 
-    public function addClassApiCall()
-    {
-        $output = ""; // Initialize output variable
-    
-        // Define the expected fields and their error messages
-        $expected = array(
-            "coursename" => "Please provide the course name.",
-            "coursecode" => "Please provide the course code.",
-            "coursenum" => "Please provide the course number.",
-            "coursecredits" => "Please provide the number of credits.",
-            "coursedesc" => "Please provide the course description.",
-            "courseinstr" => "Please provide the course instructor.",
-            "meetingtimes" => "Please provide the meeting times.",
-            "maxenroll" => "Please provide the maximum enrollment."
-        );
-    
-        $error = false;
-        $_SESSION['errors'] = []; // Initialize error message storage
-    
-        // Validate required fields
-        foreach ($expected as $key => $message) {
-            if (!isset($_POST[$key]) || empty($_POST[$key])) {
-                $_SESSION['errors'][] = $message;
-                $error = true;
-            }
+    public function addClassApiCall(): void
+{
+    $expected = [
+        "coursename" => "Please provide the course name.",
+        "coursecode" => "Please provide the course code.",
+        "coursenum" => "Please provide the course number.",
+        "coursecredits" => "Please provide the number of credits.",
+        "coursedesc" => "Please provide the course description.",
+        "courseinstr" => "Please provide the course instructor.",
+        "meetingtimes" => "Please provide the meeting times.",
+        "maxenroll" => "Please provide the maximum enrollment."
+    ];
+
+    $errors = [];
+    foreach ($expected as $key => $message) {
+        if (empty($_POST[$key])) {
+            $errors[] = $message;
         }
-    
-        // If errors exist, redirect back with error messages
-        if ($error === true) {
-            header("Location: adminFunctionView.php?action=add_class");
-            exit();
-        }
-    
-        $apikey = API_KEY;
-        $apihash = API_HASH;
-    
-        // Collect the user input from $_POST
-        $data = array(
-            "coursename" => $_POST['coursename'],
-            "coursecode" => $_POST['coursecode'],
-            "coursenum" => $_POST['coursenum'],
-            "coursecredits" => $_POST['coursecredits'],
-            "coursedesc" => $_POST['coursedesc'],
-            "courseinstr" => $_POST['courseinstr'],
-            "meetingtimes" => $_POST['meetingtimes'],
-            "maxenroll" => $_POST['maxenroll']
-        );
-    
-        $url = "https://cnmt310.classconvo.com/classreg/";
-        $client = new WebServiceClient($url);
-    
-        $action = "addcourse";
-        $fields = array(
-            "apikey" => $apikey,
-            "apihash" => $apihash,
-            "action" => $action,
-            "data" => $data
-        );
-    
-        $client->setPostFields($fields);
-        $result = $client->send();
-    
-        $jsonResult = json_decode($result);
-    
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $_SESSION['errors'][] = "Invalid response from the server.";
-            header("Location: adminFunctionView.php?action=add_class");
-            exit();
-        }
-    
-        // Handle the result of adding a course
-        if ($jsonResult->result === "Success") {
-            $course_id = $jsonResult->data->course_id;
-            $output .= "<h1>Course Added Successfully</h1>";
-            $output .= "<p>Course ID: " . htmlspecialchars($course_id) . "</p>";
-        } else {
-            $_SESSION['errors'][] = "Error adding the course: " . htmlspecialchars($jsonResult->message ?? "Unknown error.");
-            header("Location: adminFunctionView.php?action=add_class");
-            exit();
-        }
-    
-        return $output;
     }
 
+    if (!empty($errors)) {
+        echo json_encode([
+            "result" => "Error",
+            "message" => "Validation errors",
+            "errors" => $errors
+        ]);
+        return;
+    }
+
+    $apikey = API_KEY;
+    $apihash = API_HASH;
+
+    $data = [
+        "coursename" => $_POST['coursename'],
+        "coursecode" => $_POST['coursecode'],
+        "coursenum" => $_POST['coursenum'],
+        "coursecredits" => $_POST['coursecredits'],
+        "coursedesc" => $_POST['coursedesc'],
+        "courseinstr" => $_POST['courseinstr'],
+        "meetingtimes" => $_POST['meetingtimes'],
+        "maxenroll" => $_POST['maxenroll']
+    ];
+
+    $url = "https://cnmt310.classconvo.com/classreg/";
+    $client = new WebServiceClient($url);
+
+    $fields = [
+        "apikey" => $apikey,
+        "apihash" => $apihash,
+        "action" => "addcourse",
+        "data" => $data
+    ];
+
+    $client->setPostFields($fields);
+    $result = $client->send();
+
+    $jsonResult = json_decode($result);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode([
+            "result" => "Error",
+            "message" => "Invalid server response"
+        ]);
+        return;
+    }
+
+    if ($jsonResult->result === "Success") {
+        echo json_encode([
+            "result" => "Success",
+            "data" => $jsonResult->data
+        ]);
+    } else {
+        echo json_encode([
+            "result" => "Error",
+            "message" => $jsonResult->message ?? "Unknown error"
+        ]);
+    }
+}
+
     public function addClassTemplateView()
-{
+    {
     $output = ""; // Initialize output variable
 
-    $output .= "<form method=\"POST\" action=\"adminFunctionView.php?action=add_class\">";
+    $output .= "<form id=\"add-class-form\" method=\"POST\">";
     $output .= "<label for=\"coursename\">Course name:</label>";
     $output .= "<input type=\"text\" id=\"coursename\" name=\"coursename\" required><br>";
     $output .= "<label for=\"coursecode\">Course Code:</label>";
@@ -114,7 +109,7 @@ class AdminFunctionClass
     $output .= "<input type=\"text\" id=\"meetingtimes\" name=\"meetingtimes\" required><br>";
     $output .= "<label for=\"maxenroll\">Max Enroll:</label>";
     $output .= "<input type=\"text\" id=\"maxenroll\" name=\"maxenroll\" required><br>";
-    $output .= "<button type=\"submit\">Add Class</button>";
+    $output .= "<button type=\"button\" id=\"submit-add-class\">Add Class</button>";
     $output .= "</form>";
 
     $output .= "<a href=\"adminDashboard.php\">Admin Dashboard</a>";

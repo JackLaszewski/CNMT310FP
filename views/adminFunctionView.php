@@ -11,7 +11,10 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 // Get the action from the session variable or query parameter
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-
+if ($_GET['action'] === 'add_class' && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+    echo $adminController->addClassApiCall();
+    exit;
+}
 
 // Do we need this???
 if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['course_id'])) {
