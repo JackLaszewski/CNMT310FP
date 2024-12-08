@@ -55,29 +55,3 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("open");
     }
 });
-
-document.getElementById("submit-add-class").addEventListener("click", function () {
-    const form = document.getElementById("add-class-form");
-    const formData = new FormData(form);
-
-    fetch("adminFunctionView.php?action=add_class", {
-        method: "POST",
-        body: formData,
-        headers: {
-            "X-Requested-With": "XMLHttpRequest", // Identify as AJAX request
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.result === "Success") {
-                alert("Class added successfully!");
-                form.reset(); // Clear the form
-            } else {
-                alert("Error: " + (data.message || "Unknown error"));
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("An error occurred. Check the console for details.");
-        });
-});

@@ -55,18 +55,12 @@ displayCourses($courses);
 print "</div>";
 
 // Required fields for validation
-$required = array(
-    "username",
-    "password"
-  );
+if ($_SERVER["REQUEST_METHOD"] == "POST") {//dont do this
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    Login($username,$password);
+}
 
-foreach ($required as $req) {
-if (!isset($_POST[$req]) || empty(trim($_POST[$req]))) {
-        print "Please provide both username and password.<br>";
-        print "</body></html>";
-        exit;
-}
-}
 print "<div class=\"login-card\">";
 print "<div class=\"login-container\">";
 print "<h2>Login</h2>";

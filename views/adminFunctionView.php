@@ -11,12 +11,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 // Get the action from the session variable or query parameter
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-if (isset($_GET['action']) && $_GET['action'] === 'add_class' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-    $adminFunctions = new AdminFunctionClass();
-    print $adminFunctions->addClassApiCall();
-    exit;
-}
-// Do we need this???
+// need this???
 if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['course_id'])) {
     $action = 'delete_class';
 }
