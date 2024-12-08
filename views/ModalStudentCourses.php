@@ -5,20 +5,26 @@ require_once("./studentFunctionClass.php");
 
 //get student id from POST
 $data = json_decode(file_get_contents('php://input'), true);
-$studentId = $data['student_id'] ?? null;
+$_SESSION['admin_student_id'] = $data['student_id'] ?? null;
 
+$studentFunctions = new StudentFunctionClass();
 
 // Check if the student ID is provided
-if ($studentId) {
-    // Call the function to get the student's courses
-    $studentFunctions = new StudentFunctionClass();
-    $courses = $studentFunctions->listStudentCourses($studentId);
+if ($_SESSION['admin_student_id']) {
+    // Call the function to get the student's courses and available courses to add
+    $courses = $studentFunctions->listStudentCourses($_SESSION['admin_student_id']);
+    $availableCourses = $studentFunctions->adminStudentViewClasses($_SESSION['admin_student_id']);
 
-    header('Content-Type: text/html'); // Set the content type to HTML
-    print $courses;
+    $courseData = array(
+        'courses' => $courses,
+        'availableCourses' => $availableCourses
+    );
+
+    header('Content-Type: application/json'); // Set the content type to application/json
+    print json_encode($courseData);
 
 } else {
-    $_SESSION['error_message'] += "No student ID provided.";
+    $_SESSION['error_message'] = "No student ID provided.";
     print $_SESSION['error_message'];
 }
 
