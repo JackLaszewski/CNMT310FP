@@ -1,9 +1,10 @@
 /* General Styling */
 body {
+  background: linear-gradient(to bottom, #e9ecef, #dee2e6);
   font-family: Arial, sans-serif;
+  color: #333;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
 }
 
 /* Header */

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("../views/studentFunctionClass.php");
+require_once("../page.php");
 
 // Check if the student is logged in
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== "student") {
@@ -29,23 +30,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['course_id'])) {
     }
 }
 
+// Retrieve course data
 try {
-    // Pass $student_id to both functions
     $availableCoursesHTML = $studentFunctions->studentViewClasses($student_id);
     $enrolledCoursesHTML = $studentFunctions->listStudentCourses($student_id);
 } catch (Exception $e) {
     $error_message = $e->getMessage();
 }
 
-print "<!DOCTYPE html>";
-print "<html lang=\"en\">";
-print "<head>";
-print "<meta charset=\"UTF-8\">";
-print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
-print "<title>Student View</title>";
-print "<link rel=\"stylesheet\" href=\"../CSS/student.css\">"; // Make sure this file is updated
-print "</head>";
-print "<body>";
+// Initialize Page object
+$page = new MyNamespace\Page("Student View");
+$page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/student.css\">");
+
+// Output Top Section
+print $page->getTopSection();
+
+// Output Body Content
 print "<div class=\"container\">";
 print "<h1>Student View</h1>";
 
@@ -69,6 +69,7 @@ print "</div>";
 
 print "<p><a href=\"../index.php\">Return to Main Page</a></p>";
 print "</div>";
-print "</body>";
-print "</html>";
+
+// Output Bottom Section
+print $page->getBottomSection();
 ?>
