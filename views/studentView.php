@@ -19,28 +19,27 @@ if (!$student_id) {
 $studentFunctions = new StudentFunctionClass();
 $error_message = "";
 $success_message = "";
+$errors = [];
 
-// Define the required fields
-$required = array("course_id");
+// Process the form submission if POST request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $required = ["course_id"];
 
-// Validate the POST data
-foreach ($required as $req) {
-    if (!isset($_POST[$req]) || empty($_POST[$req])) {
-        $_SESSION['errors'][] = "Please select a course.";
-        header("Location: studentView.php"); // Redirect back with errors
-        exit();
+    // Validate the POST data
+    foreach ($required as $req) {
+        if (empty($_POST[$req])) {
+            $errors[] = "Please select a course.";
+        }
     }
-}
 
-// Process the form submission if validation passes
-if (isset($_POST['course_id'])) {
-    $course_id = $_POST['course_id'];
-    try {
-        $success_message = $studentFunctions->addStudentToCourse($student_id, $course_id);
-    } catch (Exception $e) {
-        $_SESSION['errors'][] = $e->getMessage();
-        header("Location: studentView.php"); // Redirect back with errors
-        exit();
+    // Process form if no errors
+    if (empty($errors)) {
+        try {
+            $course_id = $_POST['course_id'];
+            $success_message = $studentFunctions->addStudentToCourse($student_id, $course_id);
+        } catch (Exception $e) {
+            $errors[] = $e->getMessage();
+        }
     }
 }
 
@@ -56,18 +55,18 @@ try {
 $page = new MyNamespace\Page("Student View");
 $page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/student.css\">");
 
-// Output Top Section.0
+// Output Top Section
 print $page->getTopSection();
 
 // Output Body Content
 print "<div class=\"container\">";
 print "<h1>Student View</h1>";
 
-if (!empty($_SESSION['errors'])) {
-    foreach ($_SESSION['errors'] as $error) {
+// Display errors or success messages
+if (!empty($errors)) {
+    foreach ($errors as $error) {
         print "<p class='error-message'>" . htmlspecialchars($error) . "</p>";
     }
-    unset($_SESSION['errors']); // Clear errors after displaying
 }
 
 if (!empty($success_message)) {
@@ -90,4 +89,3 @@ print "</div>";
 
 // Output Bottom Section
 print $page->getBottomSection();
-?>
