@@ -1,32 +1,40 @@
+/* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    color: #343a40;
+    background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+    color: #333;
 }
 
+/* Header */
 header.public-header {
-    background-color: #007bff;
+    background: linear-gradient(90deg, #007bff, #0056b3);
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 30px 20px;
     margin-bottom: 20px;
+    border-bottom: 5px solid #004080;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 header.public-header h1 {
     margin: 0;
-    font-size: 2.5em;
+    font-size: 3em;
+    animation: fadeInDown 1s ease-in-out;
 }
 
 header.public-header p {
     font-size: 1.2em;
+    margin-top: 10px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Navigation Bar */
 nav.public-nav {
-    background-color: #343a40;
+    background: #343a40;
     color: white;
-    padding: 10px;
+    padding: 15px;
     text-align: center;
 }
 
@@ -39,58 +47,129 @@ nav.public-nav ul {
 }
 
 nav.public-nav ul li {
-    margin: 0 15px;
+    margin: 0 20px;
 }
 
 nav.public-nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 1.2em;
+    transition: color 0.3s ease-in-out;
 }
 
 nav.public-nav ul li a:hover {
+    color: #007bff;
     text-decoration: underline;
 }
 
+/* Main Content */
 main.public-main {
-    padding: 20px;
+    padding: 30px;
     text-align: center;
 }
 
 main.public-main h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #007bff;
+    animation: fadeInUp 1s ease-in-out;
 }
 
+/* Course Cards */
 .course-card {
     display: inline-block;
-    width: 250px;
-    margin: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+    width: 300px;
+    margin: 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
 .course-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.2);
 }
 
 .course-card h3 {
-    font-size: 1.5em;
-    margin: 10px 0;
+    font-size: 1.8em;
+    margin: 15px 0;
+    color: #333;
 }
 
 .course-card p {
     font-size: 1em;
     margin: 10px;
-    color: #6c757d;
+    color: #555;
 }
 
+/* Footer */
 footer.public-footer {
     text-align: center;
     padding: 20px;
-    background-color: #f1f1f1;
-    margin-top: 20px;
+    background: linear-gradient(90deg, #343a40, #212529);
+    color: white;
+    margin-top: 30px;
+}
+
+footer.public-footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+footer.public-footer a:hover {
+    color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header.public-header h1 {
+        font-size: 2.2em;
+    }
+
+    main.public-main {
+        padding: 15px;
+    }
+
+    .course-card {
+        width: 90%;
+        margin: 10px auto;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
