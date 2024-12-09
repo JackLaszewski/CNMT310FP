@@ -1,0 +1,96 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #343a40;
+}
+
+header.public-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+header.public-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header.public-header p {
+    font-size: 1.2em;
+}
+
+nav.public-nav {
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav.public-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav.public-nav ul li {
+    margin: 0 15px;
+}
+
+nav.public-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+nav.public-nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main.public-main {
+    padding: 20px;
+    text-align: center;
+}
+
+main.public-main h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.course-card {
+    display: inline-block;
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.course-card h3 {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.course-card p {
+    font-size: 1em;
+    margin: 10px;
+    color: #6c757d;
+}
+
+footer.public-footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+    margin-top: 20px;
+}

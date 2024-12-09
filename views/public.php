@@ -4,30 +4,28 @@ require_once(__DIR__ . "/../page.php");
 require_once("../WebServiceClient.php");
 require_once("courseTableFunctions.php");
 
-//get session variable user role to determine if its public or admin or if not logged in
-//if not logged in set role to public
-
-//get session variable user role to determine if its public or admin or if not logged in
-
-//if student or admin redirect to student page
-if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == "student") { //do we want admin to also be able to access student page
+// Redirect if the user is a student
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == "student") {
     header("Location: student.php");
     exit();
 }
 
-$page = new MyNamespace\Page("public page");
+$page = new MyNamespace\Page("Public Page");
 
-print $page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/style.css\">");
+// Add custom styles and JavaScript
+$page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/public.css\">"); // Link to specific public page styles
+$page->addHeadElement("<script src=\"../JS/public.js\"></script>");
 
 print $page->getTopSection();
 
-
-//page header
-print "<header>";
-print "<h1>Public Page</h1>";
+// Page Header
+print "<header class='public-header'>";
+print "<h1>Explore Our Courses</h1>";
+print "<p>Browse the available classes and discover what interests you!</p>";
 print "</header>";
-//nav bar
-print "<nav>";
+
+// Navigation Bar
+print "<nav class='public-nav'>";
 print "<ul>";
 print "<li><a href=\"../index.php\">Home</a></li>";
 print "<li><a href=\"public.php\">Classes</a></li>";
@@ -35,11 +33,19 @@ print "<li><a href=\"../login.php\">Login</a></li>";
 print "</ul>";
 print "</nav>";
 
-$courses = getCourses();
-print displayCourses($courses);
+// Main Content Section
+print "<main class='public-main'>";
+print "<h2>Available Classes</h2>";
 
-//link to return to main page
-print "<br>";
+$courses = getCourses();
+print displayCourses($courses); // Display courses in a card layout
+
+print "</main>";
+
+// Link to Return to Main Page
+print "<footer class='public-footer'>";
 print "<a href=\"../index.php\">Return to Main Page</a>";
+print "</footer>";
 
 print $page->getBottomSection();
+?>
