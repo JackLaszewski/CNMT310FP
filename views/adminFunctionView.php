@@ -1,5 +1,5 @@
 <?php
-
+require_once("../page.php");
 require_once("adminFunctionClass.php");
 require_once("studentFunctionClass.php");
 
@@ -27,16 +27,14 @@ if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' && isset($_POST['add
     $action = 'add_student_course';
 }
 
-print "<!DOCTYPE html>";
-print "<html lang=\"en\">";
-print "<head>";
-print "<meta charset=\"UTF-8\">";
-print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
-print "<title>Admin Functions</title>";
-print "<link rel=\"stylesheet\" href=\"../CSS/admin.css\">";
-print "<script src=\"../JS/admin.js\"></script>";
-print "</head>";
-print "<body>";
+$page = new MyNamespace\Page("Admin Functions");
+
+$page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/admin.css\">");
+$page->addHeadElement("<script src=\"../JS/admin.js\"></script>");
+
+print $page->getTopSection();
+
+
 print "<h1>Admin Functions</h1>";
 print "<div class=\"admin-content\">";
 
@@ -78,6 +76,6 @@ switch ($action) {
 print $output;
 
 print "</div>";
-print "</body>";
-print "</html>";
+
+print $page->getBottomSection();
 ?>

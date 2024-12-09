@@ -1,5 +1,6 @@
 <?php
 session_start(); 
+require_once(__DIR__ . "/../page.php");
 require_once("../WebServiceClient.php");
 require_once("courseTableFunctions.php");
 
@@ -14,16 +15,12 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == "student") { //do
     exit();
 }
 
-//start of html
-print "<!DOCTYPE html>";
-print "<html lang=\"en\">";
-print "<head>";
-print "<meta charset=\"UTF-8\">";
-print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
-print "<title>Public Page</title>";
-print "<link rel=\"stylesheet\" href=\"../CSS/style.css\">";
-print "</head>";
-print "<body>";
+$page = new MyNamespace\Page("public page");
+
+print $page->addHeadElement("<link rel=\"stylesheet\" href=\"../CSS/style.css\">");
+
+print $page->getTopSection();
+
 
 //page header
 print "<header>";
@@ -39,11 +36,10 @@ print "</ul>";
 print "</nav>";
 
 $courses = getCourses();
-displayCourses($courses);
+print displayCourses($courses);
 
 //link to return to main page
 print "<br>";
 print "<a href=\"../index.php\">Return to Main Page</a>";
 
-print "</body>";
-print "</html>";
+print $page->getBottomSection();

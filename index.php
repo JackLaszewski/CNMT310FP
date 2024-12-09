@@ -7,19 +7,12 @@ unset($_SESSION['error_message']);//clears error message when user returns to la
 
 
 $page = new MyNamespace\Page("Index Page");
+
 $page->addHeadElement("<link rel=\"stylesheet\" href=\"CSS/style.css\">");
 $page->addHeadElement("<script src=\"JS/indexPage.js\"></script>");
 
 // Output Top Section
 print $page->getTopSection();
-print "<!doctype html>";
-print "<html lang=\"en\">";
-print "<head>";
-print "<title>Landing Page</title>";
-print "<link rel=\"stylesheet\" type=\"text/css\" href=\"CSS/style.css\">";
-print "<script src=\"JS/indexPage.js\"></script>";
-print "</head>";
-print "<body>";
 
 print "<header>";
 print "<h1>Welcome to the landing page!</h1>";
@@ -51,7 +44,7 @@ print "<div class=\"class-card\">";
 print "<h3>Classes</h3>";
 
 $courses = getCourses();
-displayCourses($courses);
+print displayCourses($courses);
 print "</div>";
 
 // Required fields for validation
