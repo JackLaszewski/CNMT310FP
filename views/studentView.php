@@ -21,8 +21,8 @@ $error_message = "";
 $success_message = "";
 $errors = [];
 
-// Process the form submission if POST request
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Check if form was submitted by verifying if 'course_id' exists in $_POST
+if (isset($_POST['course_id'])) {
     $required = ["course_id"];
 
     // Validate the POST data
