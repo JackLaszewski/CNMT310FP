@@ -46,6 +46,7 @@ $output = ""; // Initialize the output variable
 switch ($action) {
     case 'add_class':
         $output = $adminFunctions->addClassTemplateView();
+        print $output;
         break;
     case 'manage_classes':
         $output = $adminFunctions->manageClassesView();
