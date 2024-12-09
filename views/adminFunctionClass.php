@@ -9,7 +9,7 @@ require_once("../apiConfig.php");
 class AdminFunctionClass
 {
 
-    public function addClassApiCall()
+    public function addClassApiCall():string
 {
     $output = ""; // Initialize output variable
 
@@ -68,7 +68,7 @@ class AdminFunctionClass
         }
     }
 
-    print $output; 
+    return $output; 
 }
 
     public function addClassTemplateView()
