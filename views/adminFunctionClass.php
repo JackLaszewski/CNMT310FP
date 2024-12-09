@@ -9,71 +9,67 @@ require_once("../apiConfig.php");
 class AdminFunctionClass
 {
 
-    public function addClassApiCall()
-    {
-        //We want to get rid of Request_Method and use $_Post for security reasons 
-        //$expected = array("coursename", "coursecode","coursenum","courseinstructor","coursecredits","coursedesc","meetingtimes","maxenroll");
+    public function addClassApiCall():string
+{
+    $output = ""; // Initialize output variable
 
-        //foreach )$expected as $value)
-        //if(!isset($_POST($value)|| empty($_POST($vlaue))))
-        //$_SESSION('errors')[] = "Please cmoplete all fields
-        //die(header("location: /index.php))
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $apikey = API_KEY;
-            $apihash = API_HASH;
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $apikey = API_KEY;
+        $apihash = API_HASH;
 
-            // Get user input from form
-            $coursename = $_POST['coursename'];
-            $coursecode = $_POST['coursecode'];
-            $coursenum = $_POST['coursenum'];
-            $coursecredits = $_POST['coursecredits'];
-            $coursedesc = $_POST['coursedesc'];
-            $courseinstr = $_POST['courseinstr'];
-            $meetingtimes = $_POST['meetingtimes'];
-            $maxenroll = $_POST['maxenroll'];
+        // Get user input from form
+        $coursename = $_POST['coursename'];
+        $coursecode = $_POST['coursecode'];
+        $coursenum = $_POST['coursenum'];
+        $coursecredits = $_POST['coursecredits'];
+        $coursedesc = $_POST['coursedesc'];
+        $courseinstr = $_POST['courseinstr'];
+        $meetingtimes = $_POST['meetingtimes'];
+        $maxenroll = $_POST['maxenroll'];
 
-            $url = "https://cnmt310.classconvo.com/classreg/";
-            $client = new WebServiceClient($url);
+        $url = "https://cnmt310.classconvo.com/classreg/";
+        $client = new WebServiceClient($url);
 
-            $action = "addcourse";
-            $data = array(
-                "coursename" => $coursename,
-                "coursecode" => $coursecode,
-                "coursenum" => $coursenum,
-                "coursecredits" => $coursecredits,
-                "coursedesc" => $coursedesc,
-                "courseinstr" => $courseinstr,
-                "meetingtimes" => $meetingtimes,
-                "maxenroll" => $maxenroll
-            );
-            $fields = array(
-                "apikey" => $apikey,
-                "apihash" => $apihash,
-                "action" => $action,
-                "data" => $data
-            );
+        $action = "addcourse";
+        $data = array(
+            "coursename" => $coursename,
+            "coursecode" => $coursecode,
+            "coursenum" => $coursenum,
+            "coursecredits" => $coursecredits,
+            "coursedesc" => $coursedesc,
+            "courseinstr" => $courseinstr,
+            "meetingtimes" => $meetingtimes,
+            "maxenroll" => $maxenroll
+        );
+        $fields = array(
+            "apikey" => $apikey,
+            "apihash" => $apihash,
+            "action" => $action,
+            "data" => $data
+        );
 
-            $client->setPostFields($fields);
-            $result = $client->send();
+        $client->setPostFields($fields);
+        $result = $client->send();
 
-            $output = "";
-            $jsonResult = json_decode($result);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                print "Result is not JSON";
-                exit;
-            }
+        $jsonResult = json_decode($result);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $output .= "<p class='error-message'>Result is not JSON</p>";
+            exit;
+        }
 
-            // Handle Result of adding a class
-            if ($jsonResult->result == "Success") {
-                $course_id = $jsonResult->data->course_id;
-                $output .=  "<h1>Course Added Successfully</h1>";
-                $output .=  "<p>Course ID: " . htmlspecialchars($course_id) . "</p>";
-            } else {
-                $error_message = "Error adding the course!";
-                $output .=  "<p class='error-message'>" . htmlspecialchars($error_message) . "</p>";
-            }
+        // Handle Result of adding a class
+        if ($jsonResult->result == "Success") {
+            $course_id = $jsonResult->data->course_id;
+            $output .= "<div class='success-message'>Course Added Successfully!</div>";
+            $output .= "<p>Course ID: " . htmlspecialchars($course_id) . "</p>";
+        } else {
+            $error_message = "Error adding the course!";
+            $output .= "<div class='error-message'>" . htmlspecialchars($error_message) . "</div>";
         }
     }
+
+    return $output; 
+}
 
     public function addClassTemplateView()
     {
