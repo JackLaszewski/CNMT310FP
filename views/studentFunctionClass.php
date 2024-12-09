@@ -144,6 +144,7 @@ class StudentFunctionClass
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception("Response is not valid JSON. Raw response: " . $result);
         }
+        
         if ($jsonResult->result === "Success") {
             return "Successfully added to the course!";
         } else {

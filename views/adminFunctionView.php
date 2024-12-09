@@ -64,7 +64,8 @@ switch ($action) {
         break;
     case 'add_student_course':
         if (isset($_POST['add_student_course'])) {
-            $output = $studentFunctions->addStudentToCourse( $_SESSION['admin_student_id'],$_POST['add_student_course']);
+            $output = "<p>Adding student to course: " . $_POST['add_student_course'] . "</p>";
+            $studentFunctions->addStudentToCourse( $_SESSION['admin_student_id'],$_POST['add_student_course']);
         } else {
             $output = "<p>No student or course ID provided for addition.</p>";
         }
