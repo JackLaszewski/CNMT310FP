@@ -12,13 +12,12 @@ class AdminFunctionClass
     public function addClassApiCall()
     {
         //We want to get rid of Request_Method and use $_Post for security reasons 
-        //$exoected = array("coursename", "coursecode","coursenum","courseinstructor", ect.)
+        //$expected = array("coursename", "coursecode","coursenum","courseinstructor","coursecredits","coursedesc","meetingtimes","maxenroll");
 
         //foreach )$expected as $value)
         //if(!isset($_POST($value)|| empty($_POST($vlaue))))
         //$_SESSION('errors')[] = "Please cmoplete all fields
         //die(header("location: /index.php))
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $apikey = API_KEY;
             $apihash = API_HASH;

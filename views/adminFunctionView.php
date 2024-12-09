@@ -46,13 +46,16 @@ $output = ""; // Initialize the output variable
 switch ($action) {
     case 'add_class':
         $output = $adminFunctions->addClassTemplateView();
+        $output .= "<p><a href=\"adminDashboard.php\">Go to Admin Dashboard</a></p>";
         break;
     case 'manage_classes':
         $output = $adminFunctions->manageClassesView();
+
         break;
     case 'delete_class':
         if (isset($_POST['course_id'])) {
             $output = $adminFunctions->deleteClassApiCall($_POST['course_id']);
+            $output .= "<p><a href=\"adminDashboard.php\">Go to Admin Dashboard</a></p>";
         } else {
             $output = "<p>No course ID provided for deletion.</p>";
         }
@@ -64,6 +67,7 @@ switch ($action) {
         if (isset($_POST['add_student_course'])) {
             $output = "<p>Adding student to course: " . $_POST['add_student_course'] . "</p>";
             $studentFunctions->addStudentToCourse( $_SESSION['admin_student_id'],$_POST['add_student_course']);
+            $output .= "<p><a href=\"adminDashboard.php\">Go to Admin Dashboard</a></p>";
         } else {
             $output = "<p>No student or course ID provided for addition.</p>";
         }
